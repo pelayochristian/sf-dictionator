@@ -8,7 +8,7 @@
         "build": "npm run clean && npm run babel-build",
         "clean": "rm -rf ./build && mkdir build",
         "babel-build": "babel -d ./build ./server -s",
-        "heroku-postbuild": "npm --legacy-peer-deps && npm install && npm run build"
+        "heroku-postbuild": "npm --legacy-peer-deps"
     },
     "dependencies": {
         "axios": "^1.0.0",
