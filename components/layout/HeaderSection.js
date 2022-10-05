@@ -3,7 +3,7 @@ import ButtonPrimary from '../misc/ButtonPrimary';
 import axios from 'axios';
 import { DarkThemeToggle, Dropdown } from 'flowbite-react';
 
-const Header = () => {
+const HeaderSection = () => {
     const [userData, getUserData] = useState({
         username: '',
         thumbnail: '',
@@ -126,4 +126,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default HeaderSection;

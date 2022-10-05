@@ -123,7 +123,7 @@ const SObjectTable = ({ sObjectsWithDetails }) => {
 
     return (
         <>
-            <section className="mt-20 container  justify-between items-center mx-auto">
+            <section className="mt-20 mb-20 container  justify-between items-center mx-auto">
                 {/* SObject Tabs */}
                 <div className="overflow-x-auto">
                     <ul className="flex text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
