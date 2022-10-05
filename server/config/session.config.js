@@ -3,6 +3,8 @@ import connectRedis from 'connect-redis';
 import dotenv from 'dotenv';
 import redisConfig from './redis.config';
 
+dotenv.config();
+
 // Config Redis Connection
 var RedisStore = connectRedis(session);
 const Redis = require('ioredis');
@@ -15,8 +17,6 @@ let redisClient = redisConfig.password
       })
     : new Redis(redisConfig.port, redisConfig.host);
 // if (redisConfig.password) new Redis(redisConfig.password);
-
-dotenv.config();
 
 const EXPIRE_TIME = 7200000;
 
