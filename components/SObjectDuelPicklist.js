@@ -135,7 +135,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
                             </ButtonPrimary>
                         </div>
                         <div className="col-span-2 px-6">
-                            <div className="mb-4">
+                            {/* <div className="mb-4">
                                 <p className="font-medium font text-lg ">
                                     Choose your toppings
                                 </p>
@@ -150,7 +150,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
                                 <label className="ml-2 font-light">
                                     Include Manage Package
                                 </label>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

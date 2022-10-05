@@ -1,21 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import ButtonPrimary from '../misc/ButtonPrimary';
 import axios from 'axios';
-import { DarkThemeToggle, Dropdown } from 'flowbite-react';
+import { Avatar, DarkThemeToggle, Dropdown } from 'flowbite-react';
 import { useRouter } from 'next/router';
 
 const HeaderSection = () => {
     const router = useRouter();
 
     const [userData, getUserData] = useState({
+        displayName: '',
         username: '',
-        thumbnail: '',
+        userType: '',
     });
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
         userInfo();
     }, []);
+
+    const userIcon = () => {
+        return (
+            <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+        );
+    };
+
+    const terminalIcon = () => {
+        return (
+            <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        );
+    };
 
     const orgIcon = () => {
         return (
@@ -59,9 +94,11 @@ const HeaderSection = () => {
         await axios
             .get('/user/sf-who-am-i')
             .then((response) => {
+                console.log(response.data);
                 getUserData({
                     username: response.data.username,
-                    thumbnail: response.data.photos.thumbnail,
+                    userType: response.data.user_type,
+                    displayName: response.data.display_name,
                 });
                 setLoading(false);
             })
@@ -115,12 +152,44 @@ const HeaderSection = () => {
         isLoading === true ? (
             <ButtonPrimary onClick={login}>Login</ButtonPrimary>
         ) : (
-            <Dropdown inline={true} label={userData.username}>
+            // <Dropdown
+            //     inline={true}
+            //     label={userData.username}
+            //     placement="bottom-end">
+            //     <Dropdown.Item icon={orgIcon}>
+            //         <span className="ml-3">Go to Org</span>
+            //     </Dropdown.Item>
+            //     <Dropdown.Item onClick={signoutUser} icon={signoutIcon}>
+            //         <span className="ml-3">Sign out</span>
+            //     </Dropdown.Item>
+            // </Dropdown>
+            <Dropdown
+                arrowIcon={true}
+                inline={true}
+                label={
+                    <div className="flex">
+                        <span className="mr-2">{userIcon()}</span>
+                        <p>{userData.displayName}</p>
+                    </div>
+                }>
+                <Dropdown.Header>
+                    <span className="block text-sm capitalize">
+                        {userData.userType.toLowerCase()}
+                        {' User'}
+                    </span>
+                    <span className="block text-sm font-medium truncate">
+                        {userData.username}
+                    </span>
+                </Dropdown.Header>
                 <Dropdown.Item icon={orgIcon}>
-                    <span className="ml-3">Go to Org</span>
+                    <span className="ml-2">Go to Org</span>
                 </Dropdown.Item>
+                <Dropdown.Item icon={terminalIcon}>
+                    <span className="ml-2">Github</span>
+                </Dropdown.Item>
+                <Dropdown.Divider />
                 <Dropdown.Item onClick={signoutUser} icon={signoutIcon}>
-                    <span className="ml-3">Sign out</span>
+                    <span className="ml-2">Sign out</span>
                 </Dropdown.Item>
             </Dropdown>
         );

@@ -32,7 +32,9 @@ const SObjectTable = ({ sObjectsWithDetails }) => {
                             <Table.Cell className="!p-4">
                                 {isReadOnly}
                             </Table.Cell>
-                            <Table.Cell>{isMandatory}</Table.Cell>
+                            <Table.Cell className="text-red-600">
+                                {isMandatory}
+                            </Table.Cell>
                             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                 {element.label}
                             </Table.Cell>
