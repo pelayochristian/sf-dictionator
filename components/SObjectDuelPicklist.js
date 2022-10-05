@@ -3,10 +3,12 @@ import axios from 'axios';
 import ButtonPrimary from './misc/ButtonPrimary';
 import DualListBox from 'react-dual-listbox';
 import 'react-dual-listbox/lib/react-dual-listbox.css';
+import IndeterminateProgressBar from './misc/IndeterminateProgressBar';
 
 const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
     const [selected, setSelected] = useState([]);
     const [sObjects, setSObjects] = useState([]);
+    const [showProgressBar, setShowProgressBar] = useState(false);
 
     useEffect(() => {
         onChange.bind(this);
@@ -32,6 +34,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
     };
 
     const retrieveSObjectFields = async () => {
+        setShowProgressBar(true);
         await axios
             .post('/sobject/get-sobjects-with-fields', selected, {
                 headers: {
@@ -41,6 +44,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
             .then((res) => {
                 // Set Response Data to the Parent State.
                 setSObjectsWithDetails(res.data);
+                setShowProgressBar(false);
             })
             .catch((err) => {
                 console.error(`Error in retrieveSObjectFields: ${err}`);
@@ -59,6 +63,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
                         </p>
                     </div>
                     <div className="grid grid-cols-5 gap-6">
+                        {/* Duel Picklist */}
                         <div className="col-span-3">
                             <div className="mb-4">
                                 <p className="font-medium font text-lg">
@@ -70,7 +75,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
                                 options={sObjects}
                                 selected={selected}
                                 onChange={onChange}
-                                className="mb-5 h-72"
+                                className="mb-7 h-72"
                                 icons={{
                                     moveLeft: (
                                         <svg
@@ -130,10 +135,19 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
                                     ),
                                 }}
                             />
-                            <ButtonPrimary onClick={retrieveSObjectFields}>
-                                Generate
-                            </ButtonPrimary>
+
+                            {showProgressBar ? (
+                                <div>
+                                    <IndeterminateProgressBar label="Retrieving . . ." />
+                                </div>
+                            ) : (
+                                <ButtonPrimary onClick={retrieveSObjectFields}>
+                                    Retrieve
+                                </ButtonPrimary>
+                            )}
                         </div>
+
+                        {/* Addition Configuration */}
                         <div className="col-span-2 px-6">
                             {/* <div className="mb-4">
                                 <p className="font-medium font text-lg ">

@@ -152,17 +152,6 @@ const HeaderSection = () => {
         isLoading === true ? (
             <ButtonPrimary onClick={login}>Login</ButtonPrimary>
         ) : (
-            // <Dropdown
-            //     inline={true}
-            //     label={userData.username}
-            //     placement="bottom-end">
-            //     <Dropdown.Item icon={orgIcon}>
-            //         <span className="ml-3">Go to Org</span>
-            //     </Dropdown.Item>
-            //     <Dropdown.Item onClick={signoutUser} icon={signoutIcon}>
-            //         <span className="ml-3">Sign out</span>
-            //     </Dropdown.Item>
-            // </Dropdown>
             <Dropdown
                 arrowIcon={true}
                 inline={true}
