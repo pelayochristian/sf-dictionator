@@ -1,4 +1,6 @@
 {
+    "name": "sf-dictionator",
+    "version": "0.0.0",
     "private": true,
     "scripts": {
         "dev": "NODE_ENV=development nodemon --exec babel-node ./server/server.js",
