@@ -81,3 +81,21 @@ export const sfdcConnection = async (request, response, next) => {
         next(error);
     }
 };
+
+/**
+ * Method to get the Salesforce session.
+ * TODO : enhance logic that uses sfdcConnection() to
+ * use this method.
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
+export const getSFDCSession = (request, response, next) => {
+    const session = request.session;
+    if (!session.oauthInfo) {
+        response.status(401).send('No active session');
+        return null;
+    }
+    return session;
+};
