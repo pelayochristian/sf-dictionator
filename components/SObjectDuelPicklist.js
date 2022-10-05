@@ -54,7 +54,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
     return (
         <>
             <section className="mt-28 container flex flex-wrap justify-between items-center mx-auto dark:bg-gray-800 rounded-lg">
-                <div className="shadow-md w-full p-10">
+                <div className="shadow-md w-full p-14">
                     <div className="mb-4 border-l-4 border-l-green-400 p-2 text-sm">
                         <p>
                             Lorem ipsum dolor sit, amet consectetur adipisicing
