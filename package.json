@@ -25,7 +25,8 @@
         "morgan": "^1.10.0",
         "next": "latest",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-dual-listbox": "^2.3.0"
     },
     "devDependencies": {
         "@babel/cli": "^7.19.3",

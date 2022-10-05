@@ -18,6 +18,4 @@ if (process.env.REDIS_URL) {
     redisConfig.url = `redis://${redisConfig.host}:${redisConfig.port}`;
 }
 
-console.log(`Redis Config: ${JSON.stringify(redisConfig)}`);
-
 module.exports = redisConfig;

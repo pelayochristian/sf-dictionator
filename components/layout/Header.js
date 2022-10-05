@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ButtonPrimary from '../misc/ButtonPrimary';
 import axios from 'axios';
 import { DarkThemeToggle, Dropdown } from 'flowbite-react';
-// import NavbarLogo from '../../public/images/Secondary.png';
 
 const Header = () => {
     const [userData, getUserData] = useState({

@@ -2,7 +2,6 @@ import { sfdcConnection } from './oauth.controller';
 
 export const SObjectsWithFields = async (request, response, next) => {
     let selectedSObjects = request.body;
-    console.log('selectedSObjects: ', selectedSObjects);
     if (!selectedSObjects) {
         return response.status(401).json({ error: 'No SObject Selected' });
     }
@@ -99,7 +98,6 @@ const reconstructFieldType = (value) => {
 
     // Reference
     if (fieldType === 'reference' && value['referenceTo'] != null) {
-        console.log('MS -> ', value['relationshipOrder']);
         value['type'] = `reference(${value['referenceTo']})`;
     }
 
