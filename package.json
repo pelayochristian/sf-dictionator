@@ -1,6 +1,6 @@
 {
     "name": "sf-dictionator",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "private": true,
     "scripts": {
         "dev": "NODE_ENV=development nodemon --exec babel-node ./server/server.js",
@@ -8,7 +8,7 @@
         "build": "npm run clean && npm run babel-build",
         "clean": "rm -rf ./build && mkdir build",
         "babel-build": "babel -d ./build ./server -s",
-        "heroku-postbuild": "npm --force"
+        "heroku-postbuild": "npm install && npm run build"
     },
     "dependencies": {
         "axios": "^1.0.0",
@@ -37,9 +37,5 @@
         "nodemon": "^2.0.20",
         "postcss": "^8.4.17",
         "tailwindcss": "^3.1.8"
-    },
-    "engines": {
-        "node": "16.17.1",
-        "npm": "8.19.2"
     }
 }
