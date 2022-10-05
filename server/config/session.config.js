@@ -14,6 +14,9 @@ let redisClient = redisConfig.password
           host: redisConfig.host, // Redis host
           password: redisConfig.password, // Redis password
           db: 0, // Defaults to 0
+          tls: {
+              host: redisConfig.host,
+          },
       })
     : new Redis(redisConfig.port, redisConfig.host);
 // if (redisConfig.password) new Redis(redisConfig.password);
