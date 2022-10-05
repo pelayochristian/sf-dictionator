@@ -7,8 +7,7 @@
         "start": "npm run build && NODE_ENV=production node ./build/server.js",
         "build": "npm run clean && npm run babel-build",
         "clean": "rm -rf ./build && mkdir build",
-        "babel-build": "babel -d ./build ./server -s",
-        "heroku-postbuild": "npm --legacy-peer-deps"
+        "babel-build": "babel -d ./build ./server -s"
     },
     "dependencies": {
         "axios": "^1.0.0",
