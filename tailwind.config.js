@@ -33,6 +33,26 @@ module.exports = {
             borderRadius: {
                 '4xl': '2rem',
             },
+            keyframes: {
+                indeterminateAnimation: {
+                    '0%': {
+                        transform: 'translateX(0) scaleX(0)',
+                    },
+                    '40%': {
+                        transform: 'translateX(0) scaleX(0.4)',
+                    },
+                    '100%': {
+                        transform: 'translateX(100%) scaleX(0.5)',
+                    },
+                },
+            },
+            animation: {
+                'indeterminate-loading':
+                    'indeterminateAnimation 1s infinite linear',
+            },
+            transformOrigin: {
+                'left-right': '0% 50%',
+            },
         },
     },
     variants: {},

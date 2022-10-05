@@ -11,29 +11,27 @@ body {
     @apply dark:bg-gray-900 dark:text-white;
 }
 
-/* Duel Filter Box */
-/* ===== Scrollbar CSS ===== */
-/* Firefox */
+/* Duel Filter Box Scroll */
 .rdl-control {
+    /* Firefox */
     scrollbar-width: auto;
     scrollbar-color: #8f54a0 #ffffff;
 }
 
-/* Chrome, Edge, and Safari */
 .rdl-control::-webkit-scrollbar {
-    width: 5px;
+    /* Chrome, Edge, and Safari */
+    @apply w-2;
 }
 
 .rdl-control::-webkit-scrollbar-track {
-    /* background: #ffffff; */
-    /* @apply !bg-gray-500 !rounded-xl; */
+    @apply !bg-gray-200 !rounded-xl dark:!bg-gray-600;
 }
 
 .rdl-control::-webkit-scrollbar-thumb {
     @apply !bg-gradient-to-tr !from-green-400 !to-blue-500 !rounded-full;
 }
 
-/* Select Tag */
+/* Duel Filter Box Scroll Select Tag */
 .rdl-control {
     @apply !rounded-xl dark:border-gray-700 !border !px-0 dark:bg-gray-700 dark:text-white;
 }
@@ -42,26 +40,18 @@ body {
     @apply px-5 py-2 !text-sm;
 }
 
-/* Search Input */
+/* Duel Filter Box Scroll Search Input */
 .rdl-filter {
     @apply !rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-700;
 }
 
-.rdl-filter:hover {
-    /* padding: 0.2rem; */
-    /* border: double 2px transparent;
-    border-radius: 6px;
-    background-image: linear-gradient(white, white),
-        linear-gradient(to right, #ec4899, #eab308);
-    background-origin: border-box;
-    background-clip: padding-box, border-box; */
-}
-
+/* Duel Filter Box Scroll Generic */
 .rdl-control:focus,
 .rdl-filter:focus {
     outline: none;
 }
 
+/* Duel Filter Box Arrow Selector */
 .rdl-actions button {
     @apply dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700;
 }
