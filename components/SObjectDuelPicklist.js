@@ -49,7 +49,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
 
     return (
         <>
-            <div className="mt-28 container flex flex-wrap justify-between items-center mx-auto dark:bg-gray-800 rounded-lg">
+            <section className="mt-28 container flex flex-wrap justify-between items-center mx-auto dark:bg-gray-800 rounded-lg">
                 <div className="shadow-md w-full p-10">
                     <div className="mb-4 border-l-4 border-l-green-400 p-2 text-sm">
                         <p>
@@ -154,7 +154,7 @@ const SObjectDuelPicklist = ({ setSObjectsWithDetails }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </>
     );
 };

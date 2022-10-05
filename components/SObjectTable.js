@@ -1,3 +1,4 @@
+import { Checkbox, Table } from 'flowbite-react';
 import React, { useState } from 'react';
 
 const SObjectTable = ({ sObjectsWithDetails }) => {
@@ -6,7 +7,7 @@ const SObjectTable = ({ sObjectsWithDetails }) => {
     /**
      * Get the table data and construct the table body
      */
-    const getRowItem = (sObjectName) => {
+    const getRowItem = (sObjectName = '') => {
         let sObject = getDefaultSObjectName(sObjectName);
         return (
             <>
@@ -25,30 +26,28 @@ const SObjectTable = ({ sObjectsWithDetails }) => {
                             ? element.inlineHelpText
                             : '';
                     return (
-                        <tr
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        <Table.Row
+                            className="bg-white dark:border-gray-700 dark:bg-gray-800"
                             key={index}>
-                            <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <Table.Cell className="!p-4">
                                 {isReadOnly}
-                            </td>
-                            <td className="py-4 px-6">{isMandatory}</td>
-                            <th
-                                scope="row"
-                                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            </Table.Cell>
+                            <Table.Cell>{isMandatory}</Table.Cell>
+                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                 {element.label}
-                            </th>
-                            <td className="py-4 px-6">{description}</td>
-                            <td className="py-4 px-6">{helpText}</td>
-                            <td className="py-4 px-6">{element.name}</td>
-                            <td className="py-4 px-6">{element.type}</td>
-                            <td className="py-4 px-6">
+                            </Table.Cell>
+                            <Table.Cell>{description}</Table.Cell>
+                            <Table.Cell>{helpText}</Table.Cell>
+                            <Table.Cell>{element.name}</Table.Cell>
+                            <Table.Cell>{element.type}</Table.Cell>
+                            <Table.Cell>
                                 <a
-                                    href="/"
-                                    className="font-medium text-blue-600 hover:underline">
+                                    href="/tables"
+                                    className="font-medium text-blue-600 hover:underline dark:text-blue-500">
                                     Edit
                                 </a>
-                            </td>
-                        </tr>
+                            </Table.Cell>
+                        </Table.Row>
                     );
                 })}
             </>
@@ -124,7 +123,7 @@ const SObjectTable = ({ sObjectsWithDetails }) => {
 
     return (
         <>
-            <div className="mt-20 container  justify-between items-center mx-auto">
+            <section className="mt-20 container  justify-between items-center mx-auto">
                 {/* SObject Tabs */}
                 <div className="overflow-x-auto">
                     <ul className="flex text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
@@ -133,39 +132,25 @@ const SObjectTable = ({ sObjectsWithDetails }) => {
                 </div>
 
                 <div className="overflow-x-auto relative shadow-md h-[36rem] dark:bg-gray-800">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="py-3 px-6">
-                                    R/O
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    M
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Name
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Description
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Helptext
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    API Name
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Type
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Value / Formula
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>{getRowItem('')}</tbody>
-                    </table>
+                    <Table hoverable={true}>
+                        <Table.Head>
+                            <Table.HeadCell className="!p-4">
+                                R/O
+                            </Table.HeadCell>
+                            <Table.HeadCell>M</Table.HeadCell>
+                            <Table.HeadCell>Name</Table.HeadCell>
+                            <Table.HeadCell>Description</Table.HeadCell>
+                            <Table.HeadCell>Helptext</Table.HeadCell>
+                            <Table.HeadCell>API Name</Table.HeadCell>
+                            <Table.HeadCell>Type</Table.HeadCell>
+                            <Table.HeadCell>Value/Formula</Table.HeadCell>
+                        </Table.Head>
+                        <Table.Body className="divide-y">
+                            {getRowItem()}
+                        </Table.Body>
+                    </Table>
                 </div>
-            </div>
+            </section>
         </>
     );
 };
