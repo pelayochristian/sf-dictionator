@@ -2,8 +2,11 @@
     "private": true,
     "scripts": {
         "dev": "NODE_ENV=development nodemon --exec babel-node ./server/server.js",
-        "build": "next build",
-        "start": "cross-env NODE_ENV=production node ./server/server.js"
+        "start": "npm run build && NODE_ENV=production node ./build/server.js",
+        "build": "npm run clean && npm run babel-build",
+        "clean": "rm -rf ./build && mkdir build",
+        "babel-build": "babel -d ./build ./server -s",
+        "heroku-postbuild": "npm install && npm run build"
     },
     "dependencies": {
         "axios": "^1.0.0",

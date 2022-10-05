@@ -23,7 +23,7 @@ app.prepare().then(() => {
     server.use(express.json());
     server.use(express.urlencoded({ extended: false }));
     server.use(cookieParser());
-    server.use(express.static(path.join(__dirname, '../client/build')));
+    // server.use(express.static(path.join(__dirname, '../client/build')));
 
     // Router
     server.use(MainRouter);
