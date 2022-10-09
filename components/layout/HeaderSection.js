@@ -130,6 +130,14 @@ const HeaderSection = () => {
     };
 
     /**
+     * Method to redirect to User Salesforce Org.
+     * @param {*} async
+     */
+    const goToOrg = (async) => {
+        console.log('hit');
+    };
+
+    /**
      * Call API to destroy user session.
      */
     const signoutUser = async () => {
@@ -170,7 +178,7 @@ const HeaderSection = () => {
                         {userData.username}
                     </span>
                 </Dropdown.Header>
-                <Dropdown.Item icon={orgIcon}>
+                <Dropdown.Item onClick={goToOrg} icon={orgIcon}>
                     <span className="ml-2">Go to Org</span>
                 </Dropdown.Item>
                 <Dropdown.Item icon={terminalIcon}>
