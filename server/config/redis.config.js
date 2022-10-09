@@ -4,8 +4,8 @@ export const RedisConfig = () => {
     if (process.env.REDIS_URL) {
         return {
             url: process.env.REDIS_URL,
-            port: 'redisURL.port',
-            host: redisURL.hostname,
+            port: process.env.REDIS_PORT,
+            host: process.env.REDIS_HOST,
             password: url.parse(process.env.REDIS_URL).auth.split(':')[1],
         };
     } else if (process.env.REDIS_PORT || process.env.REDIS_HOST) {
