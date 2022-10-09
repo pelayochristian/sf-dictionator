@@ -1,28 +1,33 @@
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import dotenv from 'dotenv';
-import redisConfig from './redis.config';
+import { RedisConfig } from './redis.config';
 
 dotenv.config();
+
+const { port, host, password, url } = RedisConfig();
+
+console.log(
+    `Loading Redis Configuration . . . Port: ${port}, Host: ${host}, Password: ${password}, URL: ${url}`
+);
 
 // Config Redis Connection
 var RedisStore = connectRedis(session);
 const Redis = require('ioredis');
-let redisClient = redisConfig.password
+let redisClient = password
     ? new Redis({
-          port: redisConfig.port, // Redis port
-          host: redisConfig.host, // Redis host
-          password: redisConfig.password, // Redis password
-          db: 0, // Defaults to 0
+          port: port,
+          host: host,
+          password: password,
+          db: 0,
       })
-    : new Redis(redisConfig.port, redisConfig.host);
-// if (redisConfig.password) new Redis(redisConfig.password);
+    : new Redis(port, host);
 
 const EXPIRE_TIME = 7200000;
 
 let sessionStore = new RedisStore({
-    host: redisConfig.host,
-    port: redisConfig.port,
+    host: host,
+    port: port,
     client: redisClient,
     ttl: EXPIRE_TIME,
     disableTouch: true,
