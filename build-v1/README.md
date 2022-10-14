@@ -1,2 +1,0 @@
-# Salesforce Data Dictionary Generator
-
