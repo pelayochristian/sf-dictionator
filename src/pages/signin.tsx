@@ -14,10 +14,21 @@ const providersIcons = {
     Salesforce: "/icons/salesforce-svgrepo-com.svg",
 };
 
+interface Providers {
+    callbackUrl?: string;
+    id?: string;
+    name?: string;
+    signinUrl?: string;
+    type?: string;
+}
+
 const SignIn = ({
     providers,
     csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    console.log(providers);
+
+    const providerArray: Providers[] = providers;
     return (
         <>
             <div className="flex h-screen">
@@ -33,9 +44,9 @@ const SignIn = ({
                                 authenticated.
                             </p>
                             <ul className="my-4 space-y-3">
-                                {providers && csrfToken ? (
-                                    Object.values(providers).map(
-                                        (item: any, index) => {
+                                {providerArray && csrfToken ? (
+                                    Object.values(providerArray).map(
+                                        (item, index) => {
                                             if (item.id !== "email") {
                                                 return (
                                                     <li
@@ -45,7 +56,7 @@ const SignIn = ({
                                                         }
                                                     >
                                                         <button className="group flex w-full items-center rounded-lg bg-gray-50 p-3 text-base font-bold text-gray-900 hover:bg-gray-100 hover:shadow dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500">
-                                                            <Image
+                                                            {/* <Image
                                                                 src={
                                                                     providersIcons[
                                                                         item
@@ -55,7 +66,7 @@ const SignIn = ({
                                                                 alt="Hashnode"
                                                                 width={25}
                                                                 height={25}
-                                                            />
+                                                            /> */}
                                                             <span className="ml-3 whitespace-nowrap">
                                                                 {item.name}
                                                             </span>
