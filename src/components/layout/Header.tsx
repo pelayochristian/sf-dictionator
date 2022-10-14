@@ -2,17 +2,10 @@ import { DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { trpc } from "../../../utils/trpc";
 
 const Header = () => {
     const router = useRouter();
     const { data: sessionData } = useSession();
-
-    const serverTest = trpc.example.serverTest.useQuery({
-        text: "Server test from tRPC",
-    });
-
-    console.log("Client Server Test: ", serverTest.data);
 
     return (
         <nav className="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white px-2 py-5 dark:border-gray-600 dark:bg-gray-800 sm:px-4">

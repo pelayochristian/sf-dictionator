@@ -17,6 +17,7 @@ declare module "next-auth" {
       refreshToken?: string,
       expiredIn?: number,
       instanceURL?: string,
+      error?: string
     } & DefaultJWT
   }
 
