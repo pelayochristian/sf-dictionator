@@ -2,6 +2,7 @@
 
 import type { GetServerSidePropsContext } from "next";
 import { unstable_getServerSession } from "next-auth";
+import { getToken } from "next-auth/jwt";
 import { authOptions as nextAuthOptions } from "../../pages/api/auth/[...nextauth]";
 
 // Next API route example - /pages/api/restricted.ts
@@ -10,4 +11,11 @@ export const getServerAuthSession = async (ctx: {
   res: GetServerSidePropsContext["res"];
 }) => {
   return await unstable_getServerSession(ctx.req, ctx.res, nextAuthOptions);
+};
+
+export const getServerSideAuthJWT = async (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  return await getToken(ctx)
 };

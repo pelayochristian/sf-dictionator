@@ -12,7 +12,7 @@ const Header = () => {
         text: "Server test from tRPC",
     });
 
-    console.log("Server Test: ", serverTest.data);
+    console.log("Client Server Test: ", serverTest.data);
 
     return (
         <nav className="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white px-2 py-5 dark:border-gray-600 dark:bg-gray-800 sm:px-4">

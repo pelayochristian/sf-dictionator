@@ -1,11 +1,12 @@
 // src/server/router/context.ts
 import type { inferAsyncReturnType } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
-import type { Session } from "next-auth";
-import { getServerAuthSession } from "../common/get-server-auth-session";
+import type { JWT, Session } from "next-auth";
+import { getServerAuthSession, getServerSideAuthJWT } from "../common/get-server-auth-session";
 
 type CreateContextOptions = {
   session: Session | null;
+  jwt: JWT | null
 };
 
 /** Use this helper for:
@@ -14,6 +15,7 @@ type CreateContextOptions = {
  **/
 export const createContextInner = async (opts: CreateContextOptions) => {
   return {
+    jwt: opts.jwt,
     session: opts.session,
   };
 };
@@ -27,8 +29,10 @@ export const createContext = async (opts: CreateNextContextOptions) => {
 
   // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
+  const jwt = await getServerSideAuthJWT({ req, res }) as JWT;
 
   return await createContextInner({
+    jwt,
     session,
   });
 };

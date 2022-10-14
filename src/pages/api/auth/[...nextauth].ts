@@ -7,6 +7,10 @@ export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
     async jwt({ token }) {
+      token.sfdc = {
+        accessToken: 'test1',
+        refreshToken: 'test2'
+      }
       return token
     }
   },
