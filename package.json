@@ -14,6 +14,7 @@
     "@trpc/next": "10.0.0-proxy-beta.17",
     "@trpc/react": "10.0.0-proxy-beta.17",
     "@trpc/server": "10.0.0-proxy-beta.17",
+    "axios": "^1.1.2",
     "flowbite": "^1.5.3",
     "flowbite-react": "^0.2.0",
     "next": "12.3.1",

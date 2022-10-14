@@ -13,8 +13,16 @@ declare module "next-auth" {
 
   interface JWT {
     sfdc?: {
-      accessToken: string
-      refreshToken: string
+      accessToken?: string,
+      refreshToken?: string,
+      expiredIn?: number,
+      instanceURL?: string,
     } & DefaultJWT
+  }
+
+  interface Account {
+    instance_url?: string,
+    access_token?: string,
+    refresh_token?: string
   }
 }
