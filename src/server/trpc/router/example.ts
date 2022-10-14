@@ -1,4 +1,4 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { z } from "zod";
 
 export const exampleRouter = router({
@@ -10,7 +10,7 @@ export const exampleRouter = router({
       };
     }),
 
-  serverTest: publicProcedure
+  serverTest: protectedProcedure
     .input(z.object({ text: z.string().nullish() }).nullish())
     .query(({ input, ctx }) => {
       const { jwt } = ctx;

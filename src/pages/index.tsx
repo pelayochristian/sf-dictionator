@@ -2,11 +2,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { getSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
-import Layout from "../common/components/layout/Layout";
+import Layout from "../components/layout/Layout";
 import { CtxOrReq } from "next-auth/client/_utils";
+import SObjectDuelPicklist from "../components/SObjectDuelPicklist";
 
 const Home: NextPage = () => {
-    const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+    // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
 
     return (
         <>
@@ -16,15 +17,7 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Layout>
-                <div className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-                    <div className="flex w-full items-center justify-center pt-6 text-2xl text-blue-500">
-                        {hello.data ? (
-                            <p>{hello.data.greeting}</p>
-                        ) : (
-                            <p>Loading..</p>
-                        )}
-                    </div>
-                </div>
+                <SObjectDuelPicklist />
             </Layout>
         </>
     );
