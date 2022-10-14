@@ -1,5 +1,6 @@
 import { DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -8,13 +9,22 @@ const Header = () => {
     const { data: sessionData } = useSession();
 
     return (
-        <nav className="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white px-2 py-5 dark:border-gray-600 dark:bg-gray-800 sm:px-4">
+        <nav className="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white px-2 py-3 dark:border-gray-600 dark:bg-gray-800 sm:px-4">
             <Navbar fluid={true} rounded={true}>
                 <div className="container mx-auto flex flex-wrap items-center justify-between">
                     <Navbar.Brand href="/">
-                        <span className="self-center whitespace-nowrap text-xl font-semibold">
-                            Dictionator
-                        </span>
+                        <div className="flex gap-3">
+                            <Image
+                                src="/icons/Secondary.png"
+                                alt="Dictionator Logo"
+                                width={40}
+                                height={40}
+                                className="mr-3 h-6 rounded-md sm:h-9"
+                            />
+                            <span className="self-center whitespace-nowrap text-xl font-semibold">
+                                Dictionator
+                            </span>
+                        </div>
                     </Navbar.Brand>
 
                     <div className="flex gap-5 md:order-2">

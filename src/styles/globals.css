@@ -10,3 +10,48 @@ html {
 body {
     @apply dark:bg-gray-900 dark:text-white;
 }
+
+/* Duel Filter Box Scroll */
+.rdl-control {
+    /* Firefox */
+    scrollbar-width: auto;
+    scrollbar-color: #8f54a0 #ffffff;
+}
+
+.rdl-control::-webkit-scrollbar {
+    /* Chrome, Edge, and Safari */
+    @apply w-2;
+}
+
+.rdl-control::-webkit-scrollbar-track {
+    @apply !rounded-xl !bg-gray-200 dark:!bg-gray-600;
+}
+
+.rdl-control::-webkit-scrollbar-thumb {
+    @apply !rounded-full !bg-gradient-to-tr !from-green-400 !to-blue-500;
+}
+
+/* Duel Filter Box Scroll Select Tag */
+.rdl-control {
+    @apply !rounded-xl !border !px-0 dark:border-gray-700 dark:bg-gray-700 dark:text-white;
+}
+
+.rdl-control option {
+    @apply px-5 py-2 !text-sm;
+}
+
+/* Duel Filter Box Scroll Search Input */
+.rdl-filter {
+    @apply !rounded-lg dark:border-gray-700 dark:bg-gray-700 dark:text-white;
+}
+
+/* Duel Filter Box Scroll Generic */
+.rdl-control:focus,
+.rdl-filter:focus {
+    outline: none;
+}
+
+/* Duel Filter Box Arrow Selector */
+.rdl-actions button {
+    @apply dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700;
+}
