@@ -1,0 +1,22 @@
+// src/pages/_app.tsx
+import "../common/styles/globals.css";
+import { SessionProvider } from "next-auth/react";
+import type { Session } from "next-auth";
+import type { AppType } from "next/app";
+import { trpc } from "../utils/trpc";
+import { Flowbite } from "flowbite-react";
+
+const MyApp: AppType<{ session: Session | null }> = ({
+    Component,
+    pageProps: { session, ...pageProps },
+}) => {
+    return (
+        <SessionProvider session={session}>
+            <Flowbite>
+                <Component {...pageProps} />
+            </Flowbite>
+        </SessionProvider>
+    );
+};
+
+export default trpc.withTRPC(MyApp);
