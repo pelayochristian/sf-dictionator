@@ -9,4 +9,12 @@ export const exampleRouter = router({
         greeting: `Hello ${input?.text ?? "world"}`,
       };
     }),
+
+  serverTest: publicProcedure
+    .input(z.object({ text: z.string().nullish() }).nullish())
+    .query(({ input }) => {
+      return {
+        greeting: `123Server Test ${input?.text ?? "world"}`,
+      };
+    }),
 });
