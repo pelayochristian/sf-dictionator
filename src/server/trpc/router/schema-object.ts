@@ -25,7 +25,10 @@ export const schemaObjectRouter = router({
                     'Order By Label'
                 )
                     .on('record', function (record) {
-                        sObjects.push(record);
+                        sObjects.push({
+                            value: record.QualifiedApiName,
+                            label: record.Label
+                        });
                     })
                     .on('end', function () {
                         resolve(sObjects)
