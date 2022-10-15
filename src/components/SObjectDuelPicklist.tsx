@@ -3,6 +3,7 @@ import { trpc } from "../utils/trpc";
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import { CustomizableSObject } from "schema-object";
+import { Button } from "flowbite-react";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState([]);
@@ -11,10 +12,27 @@ const SObjectDuelPicklist = () => {
      * Get Customizable SObjects.
      */
     let customizableSObjects: CustomizableSObject[] = [];
-    const { data, isLoading } =
+    const { data: ctmSObjects, isLoading } =
         trpc.schemaObjectRouter.getCustomizableSObjects.useQuery();
     if (!isLoading) {
-        customizableSObjects = data as CustomizableSObject[];
+        customizableSObjects = ctmSObjects as CustomizableSObject[];
+    }
+
+    /**
+     * Get Selected SObjects with Fields.
+     */
+    const {
+        data,
+        isLoading: sObjFieldsIsLoading,
+        refetch: retrieveSObjectFields,
+        isFetching,
+    } = trpc.schemaObjectRouter.getSObjectsWithFields.useQuery(
+        { selectedSObject: selected },
+        { enabled: false }
+    );
+
+    if (!sObjFieldsIsLoading || !isFetching) {
+        console.log("data", data);
     }
 
     /**
@@ -115,6 +133,10 @@ const SObjectDuelPicklist = () => {
                                 ),
                             }}
                         />
+
+                        <Button onClick={retrieveSObjectFields}>
+                            Retrieve
+                        </Button>
 
                         {/* {showProgressBar ? (
                             <div>
