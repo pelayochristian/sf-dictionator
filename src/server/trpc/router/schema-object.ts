@@ -10,7 +10,7 @@ import { SObjectMetadataFieldProps, SObjectMetadataProps } from "../../../types/
 import { SObjectDescribeFieldProps, SObjectDescribeProps } from "../../../types/sobject-describe";
 
 export const schemaObjectRouter = router({
-    //Method use to retrieve SObjects that are customizable.
+    // Method use to retrieve SObjects that are customizable.
     getCustomizableSObjects: protectedProcedure
         .query(({ ctx }) => {
             return new Promise((resolve, reject) => {
@@ -43,6 +43,7 @@ export const schemaObjectRouter = router({
             })
         }),
 
+    // Method use to retrieve SObjects with it's fields.
     getSObjectsWithFields: protectedProcedure
         .input(z.object({ selectedSObject: z.array(z.string()) }).nullish())
         .query(async ({ input, ctx }) => {

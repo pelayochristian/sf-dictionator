@@ -134,7 +134,7 @@ const SObjectDuelPicklist = () => {
                             }}
                         />
 
-                        <Button onClick={retrieveSObjectFields}>
+                        <Button onClick={() => retrieveSObjectFields()}>
                             Retrieve
                         </Button>
 
