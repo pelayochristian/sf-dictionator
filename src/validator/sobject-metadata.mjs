@@ -5,9 +5,10 @@ import { z } from "zod";
 //     type: z.string().optional(),
 // });
 
-export const fieldSchema = z.object({
+export const metadataFieldSchema = z.object({
     fullName: z.string().optional(),
     type: z.string().optional(),
+    description: z.string().optional(),
 });
 
 export const sObjectMetadataSchema = z.object({
@@ -16,7 +17,7 @@ export const sObjectMetadataSchema = z.object({
     // compactLayoutAssignment: z.string().optional(),
     // enableFeeds: z.string().optional(),
     // externalSharingModel: z.string().optional(),
-    fields: z.array(fieldSchema).optional(),
+    fields: z.array(metadataFieldSchema).optional(),
     label: z.string().optional(),
     // sharingModel: z.string().optional(),
 });

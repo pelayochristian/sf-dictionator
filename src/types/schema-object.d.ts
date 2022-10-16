@@ -4,3 +4,4 @@ declare module "schema-object" {
         label: string
     }
 }
+

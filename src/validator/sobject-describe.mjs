@@ -17,7 +17,7 @@ export const picklistValueSchema = z.object({
 //     name: z.string().optional(),
 // });
 
-export const fieldSchema = z.object({
+export const describeFieldSchema = z.object({
     // aggregatable: z.boolean().optional(),
     // autoNumber: z.boolean().optional(),
     // byteLength: z.number().optional(),
@@ -71,6 +71,7 @@ export const fieldSchema = z.object({
     // unique: z.boolean().optional(),
     // updateable: z.boolean().optional(),
     // writeRequiresMasterRead: z.boolean().optional(),
+    fieldDescription: z.string().optional(),
 });
 
 // export const recordTypeInfoSchema = z.object({
@@ -93,7 +94,7 @@ export const sObjectDescribeSchema = z.object({
     // deletable: z.boolean().optional(),
     // deprecatedAndHidden: z.boolean().optional(),
     // feedEnabled: z.boolean().optional(),
-    fields: z.array(fieldSchema).optional(),
+    fields: z.array(describeFieldSchema).optional(),
     // hasSubtypes: z.boolean().optional(),
     // isSubtype: z.boolean().optional(),
     // keyPrefix: z.string().optional(),

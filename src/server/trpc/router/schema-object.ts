@@ -4,13 +4,10 @@ import { CustomizableSObject } from "schema-object";
 import { TRPCError } from "@trpc/server";
 import { z, ZodError } from "zod";
 import { sObjectMetadataSchema } from "../../../validator/sobject-metadata.mjs";
-import { fieldSchema, sObjectDescribeSchema } from "../../../validator/sobject-describe.mjs";
-
-const arrSObjectMetada = z.array(sObjectMetadataSchema)
-export type SObjectMetadataResponse = z.infer<typeof sObjectMetadataSchema>;
-
-const arrSObjectDescribe = z.array(sObjectDescribeSchema)
-export type SObjectDescribeResponse = z.infer<typeof sObjectDescribeSchema>
+import { describeFieldSchema, sObjectDescribeSchema } from "../../../validator/sobject-describe.mjs";
+import { metadataFieldSchema } from "../../../validator/sobject-metadata.mjs";
+import { SObjectMetadataFieldProps, SObjectMetadataProps } from "../../../types/sobject-metadata";
+import { SObjectDescribeFieldProps, SObjectDescribeProps } from "../../../types/sobject-describe";
 
 export const schemaObjectRouter = router({
     //Method use to retrieve SObjects that are customizable.
@@ -55,42 +52,54 @@ export const schemaObjectRouter = router({
                 accessToken: jwt?.accessToken,
             });
 
+            // Retrieve SObject Metadata from Salesforce.
             const sObjectMetadata = await readSObjectMetadata(conn, input?.selectedSObject ?? [])
 
+            // Map the fields from Describe SObject
+            const sObjectMetadataFieldList_Schema = z.array(metadataFieldSchema);
+            const sObjectMetadataMap: { [key: string]: SObjectMetadataFieldProps[] } = {}
+            for (const [, sObject] of Object.entries(sObjectMetadata)) {
+                if (!sObject.fullName) return;
+                const fieldWithDescription = sObjectMetadataFieldList_Schema
+                    .parse(sObject.fields)
+                    .filter(field => {
+                        if (field.description) return field;
+                    })
+                sObjectMetadataMap[sObject.fullName] = sObjectMetadataFieldList_Schema.parse(fieldWithDescription);
+            }
+
+            // Retrieve SObject Describe from Salesforce.
             const sObjectsDescribe = await Promise.all(
                 input?.selectedSObject.map(async (sObjectName) => {
                     return await describeSObject(conn, sObjectName);
-                }) as SObjectDescribeResponse[]
+                }) as SObjectDescribeProps[]
             );
 
-            // Map the fields from Describe SObject
-            const sObjectDescribeMap = sObjectsDescribe.map((sobject) => {
-                return {
-                    name: sobject.name,
-                    fields: sobject.fields
-                };
-            })
+            // Map the fields from Describe SObject.
+            const sObjectDescribeFieldList_Schema = z.array(describeFieldSchema);
+            const sObjectDescribeMap: { [key: string]: SObjectDescribeFieldProps[] } = {}
+            for (const [, sObject] of Object.entries(sObjectsDescribe)) {
+                if (!sObject.name) return;
 
-            // Map the fields from the ReadMetadataSObject
-            const sObjectMetadataMap = sObjectMetadata.map((sobject) => {
-                return {
-                    name: sobject.fullName,
-                    fields: sobject.fields
-                };
-            })
+                const updateFieldsWithDescription = sObjectDescribeFieldList_Schema
+                    .parse(sObject.fields)
+                    .map(describeField => {
+                        if (!sObject.name) return;
+                        sObjectMetadataMap[sObject.name]?.map(metadataField => {
+                            if (describeField.name === metadataField.fullName) {
+                                describeField.fieldDescription = metadataField.description;
+                            }
+                        })
+                        return describeField;
+                    })
+                sObjectDescribeMap[sObject.name] = sObjectDescribeFieldList_Schema.parse(updateFieldsWithDescription)
+            }
 
             return new Promise(async (resolve, reject) => {
                 resolve(sObjectDescribeMap)
             })
         }),
 });
-
-// const sObjectDescribeWrapper = z.object({
-//     name: z.string().optional(),
-//     fields: z.array(fieldSchema).optional()
-// });
-
-// export type SObjectDescribeWrapper = z.infer<typeof sObjectDescribeWrapper>;
 
 /**
  *  Utility method to read SObject Metadata by passing SObject Array Name.
@@ -99,7 +108,7 @@ export const schemaObjectRouter = router({
  * @returns Promise<unknown>
  */
 const readSObjectMetadata = async (conn: jsforce.Connection, selectedSObject: string[]) => {
-    return new Promise<SObjectMetadataResponse[]>((resolve, reject) => {
+    return new Promise<SObjectMetadataProps[]>((resolve, reject) => {
         conn.metadata.read('CustomObject', selectedSObject ?? [], (err, metadata) => {
             if (err) {
                 reject(new TRPCError({
@@ -109,9 +118,10 @@ const readSObjectMetadata = async (conn: jsforce.Connection, selectedSObject: st
             }
 
             try {
+                const sObjectMetadaList_Schema = z.array(sObjectMetadataSchema)
                 resolve(Array.isArray(metadata)
-                    ? arrSObjectMetada.parse(metadata)
-                    : arrSObjectMetada.parse([sObjectMetadataSchema.parse(metadata)]));
+                    ? sObjectMetadaList_Schema.parse(metadata)
+                    : sObjectMetadaList_Schema.parse([sObjectMetadataSchema.parse(metadata)]));
             } catch (err) {
                 if (err instanceof ZodError) {
                     reject(new TRPCError({
@@ -131,7 +141,7 @@ const readSObjectMetadata = async (conn: jsforce.Connection, selectedSObject: st
  * @returns Promise<unknown>
  */
 const describeSObject = async (conn: jsforce.Connection, sObjectName: string) => {
-    return new Promise<SObjectDescribeResponse>((resolve, reject) => {
+    return new Promise<SObjectDescribeProps>((resolve, reject) => {
         conn.describe(sObjectName, (err, meta) => {
             if (err) {
                 return reject(err);
