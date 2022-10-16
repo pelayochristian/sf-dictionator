@@ -7,8 +7,6 @@ import { CtxOrReq } from "next-auth/client/_utils";
 import SObjectDuelPicklist from "../components/SObjectDuelPicklist";
 
 const Home: NextPage = () => {
-    // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
-
     return (
         <>
             <Head>

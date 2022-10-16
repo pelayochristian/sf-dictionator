@@ -12,9 +12,7 @@ export const exampleRouter = router({
 
   serverTest: protectedProcedure
     .input(z.object({ text: z.string().nullish() }).nullish())
-    .query(({ input, ctx }) => {
-      const { jwt } = ctx;
-      console.log('jwt: ', jwt)
+    .query(({ input }) => {
       return {
         greeting: `123Server Test ${input?.text ?? "world"}`,
       };

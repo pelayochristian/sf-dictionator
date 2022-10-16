@@ -2,23 +2,47 @@ import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
-
-const options = [
-    { value: "one", label: "Option One" },
-    { value: "two", label: "Option Two" },
-];
+import { CustomizableSObject } from "schema-object";
+import { Button } from "flowbite-react";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState([]);
 
+    /**
+     * Get Customizable SObjects.
+     */
+    let customizableSObjects: CustomizableSObject[] = [];
+    const { data: ctmSObjects, isLoading } =
+        trpc.schemaObjectRouter.getCustomizableSObjects.useQuery();
+    if (!isLoading) {
+        customizableSObjects = ctmSObjects as CustomizableSObject[];
+    }
+
+    /**
+     * Get Selected SObjects with Fields.
+     */
+    const {
+        data,
+        isLoading: sObjFieldsIsLoading,
+        refetch: retrieveSObjectFields,
+        isFetching,
+    } = trpc.schemaObjectRouter.getSObjectsWithFields.useQuery(
+        { selectedSObject: selected },
+        { enabled: false }
+    );
+
+    if (!sObjFieldsIsLoading || !isFetching) {
+        console.log("data", data);
+    }
+
+    /**
+     * Handle Duel Selector Change event.
+     * @param selected
+     */
     const onChange = (selected: any) => {
         setSelected(selected);
     };
 
-    const getCustomizableSObjects =
-        trpc.schemaObjectRouter.getCustomizableSObjects.useQuery();
-
-    console.log("getCustomizableSObjects", getCustomizableSObjects);
     return (
         <section className="container mx-auto mt-28 flex flex-wrap items-center justify-between rounded-lg dark:bg-gray-800">
             <div className="w-full p-14 shadow-md">
@@ -38,7 +62,7 @@ const SObjectDuelPicklist = () => {
                         </div>
                         <DualListBox
                             canFilter
-                            options={options}
+                            options={customizableSObjects}
                             selected={selected}
                             onChange={onChange}
                             className="mb-7 h-72"
@@ -109,6 +133,10 @@ const SObjectDuelPicklist = () => {
                                 ),
                             }}
                         />
+
+                        <Button onClick={() => retrieveSObjectFields()}>
+                            Retrieve
+                        </Button>
 
                         {/* {showProgressBar ? (
                             <div>

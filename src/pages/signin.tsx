@@ -26,8 +26,6 @@ const SignIn = ({
     providers,
     csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-    console.log(providers);
-
     const providerArray: Providers[] = providers;
     return (
         <>
