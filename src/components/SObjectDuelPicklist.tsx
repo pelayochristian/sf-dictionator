@@ -4,6 +4,7 @@ import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import { CustomizableSObject } from "schema-object";
 import { Button } from "flowbite-react";
+import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState([]);
@@ -134,19 +135,15 @@ const SObjectDuelPicklist = () => {
                             }}
                         />
 
-                        <Button onClick={() => retrieveSObjectFields()}>
-                            Retrieve
-                        </Button>
-
-                        {/* {showProgressBar ? (
+                        {sObjFieldsIsLoading && isFetching ? (
                             <div>
                                 <IndeterminateProgressBar label="Retrieving . . ." />
                             </div>
                         ) : (
-                            <ButtonPrimary onClick={retrieveSObjectFields}>
+                            <Button onClick={() => retrieveSObjectFields()}>
                                 Retrieve
-                            </ButtonPrimary>
-                        )} */}
+                            </Button>
+                        )}
                     </div>
 
                     {/* Addition Configuration */}
