@@ -3,8 +3,8 @@ import jsforce from 'jsforce';
 import { CustomizableSObject } from "schema-object";
 import { TRPCError } from "@trpc/server";
 import { z, ZodError } from "zod";
-import { sObjectMetadataSchema } from "../../../types/sobject-metadata.mjs";
-import { sObjectDescribeSchema } from "../../../types/sobject-describe.mjs";
+import { sObjectMetadataSchema } from "../../../validator/sobject-metadata.mjs";
+import { fieldSchema, sObjectDescribeSchema } from "../../../validator/sobject-describe.mjs";
 
 const arrSObjectMetada = z.array(sObjectMetadataSchema)
 export type SObjectMetadataResponse = z.infer<typeof sObjectMetadataSchema>;
@@ -55,18 +55,42 @@ export const schemaObjectRouter = router({
                 accessToken: jwt?.accessToken,
             });
 
-            // const sObjectMetadata = await readSObjectMetadata(conn, input?.selectedSObject ?? [])
+            const sObjectMetadata = await readSObjectMetadata(conn, input?.selectedSObject ?? [])
 
             const sObjectsDescribe = await Promise.all(
                 input?.selectedSObject.map(async (sObjectName) => {
                     return await describeSObject(conn, sObjectName);
                 }) as SObjectDescribeResponse[]
             );
+
+            // Map the fields from Describe SObject
+            const sObjectDescribeMap = sObjectsDescribe.map((sobject) => {
+                return {
+                    name: sobject.name,
+                    fields: sobject.fields
+                };
+            })
+
+            // Map the fields from the ReadMetadataSObject
+            const sObjectMetadataMap = sObjectMetadata.map((sobject) => {
+                return {
+                    name: sobject.fullName,
+                    fields: sobject.fields
+                };
+            })
+
             return new Promise(async (resolve, reject) => {
-                resolve(sObjectsDescribe)
+                resolve(sObjectDescribeMap)
             })
         }),
 });
+
+// const sObjectDescribeWrapper = z.object({
+//     name: z.string().optional(),
+//     fields: z.array(fieldSchema).optional()
+// });
+
+// export type SObjectDescribeWrapper = z.infer<typeof sObjectDescribeWrapper>;
 
 /**
  *  Utility method to read SObject Metadata by passing SObject Array Name.
