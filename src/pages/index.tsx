@@ -5,6 +5,7 @@ import { trpc } from "../utils/trpc";
 import Layout from "../components/layout/Layout";
 import { CtxOrReq } from "next-auth/client/_utils";
 import SObjectDuelPicklist from "../components/SObjectDuelPicklist";
+import SObjectTable from "../components/SObjectTable";
 
 const Home: NextPage = () => {
     return (
@@ -15,7 +16,10 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Layout>
-                <SObjectDuelPicklist />
+                <>
+                    <SObjectDuelPicklist />
+                    <SObjectTable />
+                </>
             </Layout>
         </>
     );
