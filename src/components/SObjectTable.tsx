@@ -1,6 +1,5 @@
 import { Table } from "flowbite-react";
 import React, { useState } from "react";
-import { boolean } from "zod";
 import { SObjectDescribeMapProps } from "../types/schema-common";
 
 const SObjectTable = ({

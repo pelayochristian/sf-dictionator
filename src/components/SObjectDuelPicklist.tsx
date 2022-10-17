@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
@@ -8,7 +8,7 @@ import { CustomizableSObjectSchema } from "../types/schema-common";
 import SObjectTable from "./SObjectTable";
 
 const SObjectDuelPicklist = () => {
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState<string[]>([]);
 
     /**
      * Get Customizable SObjects.
@@ -44,7 +44,7 @@ const SObjectDuelPicklist = () => {
      * Handle Duel Selector Change event.
      * @param selected
      */
-    const onChange = (selected: any) => {
+    const onChange = (selected: string[]) => {
         setSelected(selected);
     };
 
