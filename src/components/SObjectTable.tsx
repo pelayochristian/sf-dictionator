@@ -1,4 +1,4 @@
-import { Table } from "flowbite-react";
+import { Button, Table } from "flowbite-react";
 import React, { useState } from "react";
 import { SObjectDescribeMapProps } from "../types/schema-common";
 
@@ -109,8 +109,22 @@ const SObjectTable = ({
         setSObjectNameState(sObjectName);
     };
 
+    /**
+     * Method use to export data to CSV.
+     */
+    const exportToCSV = () => {
+        console.log("test", sObjectsWithDetailsData[defaultSObjectName]);
+    };
+
     return (
         <section className="container mx-auto mt-20  mb-20 items-center justify-between">
+            <div className="flex flex-wrap justify-end">
+                <div>
+                    <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
+                        Export
+                    </Button>
+                </div>
+            </div>
             {/* SObject Tabs */}
             <div className="overflow-x-auto">
                 <ul className="flex border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">

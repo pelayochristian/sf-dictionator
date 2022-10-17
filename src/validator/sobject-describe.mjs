@@ -27,7 +27,7 @@ export const describeFieldSchema = z.object({
     // caseSensitive: z.boolean().optional(),
     // controllerName: z.null().optional(),
     // createable: z.boolean().optional(),
-    // custom: z.boolean().optional(),
+    custom: z.boolean().optional(),
     // defaultValue: z.union([z.boolean(), z.string()]).optional().nullable(),
     // defaultValueFormula: z.string().optional().nullable(),
     // defaultedOnCreate: z.boolean().optional(),

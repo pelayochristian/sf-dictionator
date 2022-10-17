@@ -17,7 +17,11 @@ export const sObjectMetadataSchema = z.object({
     // compactLayoutAssignment: z.string().optional(),
     // enableFeeds: z.string().optional(),
     // externalSharingModel: z.string().optional(),
-    fields: z.array(metadataFieldSchema).optional(),
+    fields: z
+        .union([metadataFieldSchema, metadataFieldSchema.array()])
+        .transform((rel) => {
+            return Array.isArray(rel) ? rel : [rel];
+        }),
     label: z.string().optional(),
     // sharingModel: z.string().optional(),
 });
