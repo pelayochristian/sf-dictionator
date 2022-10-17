@@ -146,9 +146,18 @@ const SObjectDuelPicklist = () => {
                                     <IndeterminateProgressBar label="Retrieving . . ." />
                                 </div>
                             ) : (
-                                <Button onClick={() => retrieveSObjectFields()}>
-                                    Retrieve
-                                </Button>
+                                <div className="flex flex-wrap justify-start">
+                                    <div className="basis-1/4">
+                                        <Button
+                                            gradientDuoTone="greenToBlue"
+                                            onClick={() =>
+                                                retrieveSObjectFields()
+                                            }
+                                        >
+                                            Generate
+                                        </Button>
+                                    </div>
+                                </div>
                             )}
                         </div>
 
