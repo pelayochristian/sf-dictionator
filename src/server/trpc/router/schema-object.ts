@@ -1,14 +1,17 @@
 import { protectedProcedure, router } from "../trpc";
 import jsforce from 'jsforce';
-import { CustomizableSObject } from "schema-object";
 import { TRPCError } from "@trpc/server";
 import { z, ZodError } from "zod";
 import { sObjectMetadataSchema } from "../../../validator/sobject-metadata.mjs";
 import { describeFieldSchema, sObjectDescribeSchema } from "../../../validator/sobject-describe.mjs";
 import { metadataFieldSchema } from "../../../validator/sobject-metadata.mjs";
 import { SObjectMetadataFieldProps, SObjectMetadataProps } from "../../../types/sobject-metadata";
-import { SObjectDescribeFieldProps, SObjectDescribeProps } from "../../../types/sobject-describe";
+import { SObjectDescribeProps } from "../../../types/sobject-describe";
+import { CustomizableSObjectSchema, SObjectMetadataMapProps } from "../../../types/schema-common";
 
+interface SObjectDescribeMapProps {
+    [key: string]: SObjectMetadataFieldProps[]
+}
 export const schemaObjectRouter = router({
     // Method use to retrieve SObjects that are customizable.
     getCustomizableSObjects: protectedProcedure
@@ -20,7 +23,7 @@ export const schemaObjectRouter = router({
                     accessToken: jwt?.accessToken,
                 });
 
-                const sObjects: CustomizableSObject[] = [];
+                const sObjects: CustomizableSObjectSchema[] = [];
                 conn.query(
                     'SELECT Label, QualifiedApiName ' +
                     'FROM EntityDefinition ' +
@@ -58,7 +61,7 @@ export const schemaObjectRouter = router({
 
             // Map the fields from Describe SObject
             const sObjectMetadataFieldList_Schema = z.array(metadataFieldSchema);
-            const sObjectMetadataMap: { [key: string]: SObjectMetadataFieldProps[] } = {}
+            const sObjectMetadataMap: SObjectMetadataMapProps = {}
             for (const [, sObject] of Object.entries(sObjectMetadata)) {
                 if (!sObject.fullName) return;
                 const fieldWithDescription = sObjectMetadataFieldList_Schema
@@ -78,7 +81,7 @@ export const schemaObjectRouter = router({
 
             // Map the fields from Describe SObject.
             const sObjectDescribeFieldList_Schema = z.array(describeFieldSchema);
-            const sObjectDescribeMap: { [key: string]: SObjectDescribeFieldProps[] } = {}
+            const sObjectDescribeMap: SObjectDescribeMapProps = {}
             for (const [, sObject] of Object.entries(sObjectsDescribe)) {
                 if (!sObject.name) return;
 
@@ -96,9 +99,10 @@ export const schemaObjectRouter = router({
                 sObjectDescribeMap[sObject.name] = sObjectDescribeFieldList_Schema.parse(updateFieldsWithDescription)
             }
 
-            return new Promise(async (resolve, reject) => {
-                resolve(sObjectDescribeMap)
-            })
+            // return new Promise(async (resolve, reject) => {
+            //     resolve(sObjectDescribeMap)
+            // })
+            return sObjectDescribeMap;
         }),
 });
 

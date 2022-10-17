@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { trpc } from "../utils/trpc";
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
-import { CustomizableSObject } from "schema-object";
 import { Button } from "flowbite-react";
 import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
+import { CustomizableSObjectSchema } from "../types/schema-common";
+import SObjectTable from "./SObjectTable";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState([]);
@@ -12,11 +13,11 @@ const SObjectDuelPicklist = () => {
     /**
      * Get Customizable SObjects.
      */
-    let customizableSObjects: CustomizableSObject[] = [];
+    let customizableSObjects: CustomizableSObjectSchema[] = [];
     const { data: ctmSObjects, isLoading } =
         trpc.schemaObjectRouter.getCustomizableSObjects.useQuery();
     if (!isLoading) {
-        customizableSObjects = ctmSObjects as CustomizableSObject[];
+        customizableSObjects = ctmSObjects as CustomizableSObjectSchema[];
     }
 
     /**
@@ -25,16 +26,19 @@ const SObjectDuelPicklist = () => {
     const {
         data,
         isLoading: sObjFieldsIsLoading,
-        refetch: retrieveSObjectFields,
+        refetch: refetchSObjectWithFields,
         isFetching,
     } = trpc.schemaObjectRouter.getSObjectsWithFields.useQuery(
         { selectedSObject: selected },
         { enabled: false }
     );
 
-    if (!sObjFieldsIsLoading || !isFetching) {
-        console.log("data", data);
-    }
+    /**
+     * Method handler to refetch SObject with Fields.
+     */
+    const retrieveSObjectFields = () => {
+        refetchSObjectWithFields();
+    };
 
     /**
      * Handle Duel Selector Change event.
@@ -45,112 +49,120 @@ const SObjectDuelPicklist = () => {
     };
 
     return (
-        <section className="container mx-auto mt-28 flex flex-wrap items-center justify-between rounded-lg dark:bg-gray-800">
-            <div className="w-full p-14 shadow-md">
-                <div className="mb-4 border-l-4 border-l-green-400 p-2 text-sm">
-                    <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Molestiae ullam magni tempora, quidem veritatis.
-                    </p>
-                </div>
-                <div className="grid grid-cols-5 gap-6">
-                    {/* Duel Picklist */}
-                    <div className="col-span-3">
-                        <div className="mb-4">
-                            <p className="font text-lg font-medium">
-                                Select SObject(s)
-                            </p>
-                        </div>
-                        <DualListBox
-                            canFilter
-                            options={customizableSObjects}
-                            selected={selected}
-                            onChange={onChange}
-                            className="mb-7 h-72"
-                            icons={{
-                                moveLeft: (
-                                    <svg
-                                        className="h-6 w-6"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M15 19l-7-7 7-7"
-                                        ></path>
-                                    </svg>
-                                ),
-                                moveAllLeft: (
-                                    <svg
-                                        className="h-6 w-6"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                                        ></path>
-                                    </svg>
-                                ),
-                                moveRight: (
-                                    <svg
-                                        className="h-6 w-6"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M9 5l7 7-7 7"
-                                        ></path>
-                                    </svg>
-                                ),
-                                moveAllRight: (
-                                    <svg
-                                        className="h-6 w-6"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                                        ></path>
-                                    </svg>
-                                ),
-                            }}
-                        />
-
-                        {sObjFieldsIsLoading && isFetching ? (
-                            <div>
-                                <IndeterminateProgressBar label="Retrieving . . ." />
-                            </div>
-                        ) : (
-                            <Button onClick={() => retrieveSObjectFields()}>
-                                Retrieve
-                            </Button>
-                        )}
+        <>
+            <section className="container mx-auto mt-28 flex flex-wrap items-center justify-between rounded-lg dark:bg-gray-800">
+                <div className="w-full p-14 shadow-md">
+                    <div className="mb-4 border-l-4 border-l-green-400 p-2 text-sm">
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing
+                            elit. Molestiae ullam magni tempora, quidem
+                            veritatis.
+                        </p>
                     </div>
+                    <div className="grid grid-cols-5 gap-6">
+                        {/* Duel Picklist */}
+                        <div className="col-span-3">
+                            <div className="mb-4">
+                                <p className="font text-lg font-medium">
+                                    Select SObject(s)
+                                </p>
+                            </div>
+                            <DualListBox
+                                canFilter
+                                options={customizableSObjects}
+                                selected={selected}
+                                onChange={onChange}
+                                className="mb-7 h-72"
+                                icons={{
+                                    moveLeft: (
+                                        <svg
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M15 19l-7-7 7-7"
+                                            ></path>
+                                        </svg>
+                                    ),
+                                    moveAllLeft: (
+                                        <svg
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+                                            ></path>
+                                        </svg>
+                                    ),
+                                    moveRight: (
+                                        <svg
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M9 5l7 7-7 7"
+                                            ></path>
+                                        </svg>
+                                    ),
+                                    moveAllRight: (
+                                        <svg
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                                            ></path>
+                                        </svg>
+                                    ),
+                                }}
+                            />
 
-                    {/* Addition Configuration */}
-                    <div className="col-span-2 px-6"></div>
+                            {sObjFieldsIsLoading && isFetching ? (
+                                <div>
+                                    <IndeterminateProgressBar label="Retrieving . . ." />
+                                </div>
+                            ) : (
+                                <Button onClick={() => retrieveSObjectFields()}>
+                                    Retrieve
+                                </Button>
+                            )}
+                        </div>
+
+                        {/* Addition Configuration */}
+                        <div className="col-span-2 px-6"></div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+            {data ? (
+                <SObjectTable sObjectsWithDetailsData={data} />
+            ) : (
+                <p>test</p>
+            )}
+        </>
     );
 };
 

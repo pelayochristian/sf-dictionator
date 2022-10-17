@@ -69,7 +69,7 @@ export const describeFieldSchema = z.object({
     // sortable: z.boolean().optional(),
     type: z.string().optional(), // add
     // unique: z.boolean().optional(),
-    // updateable: z.boolean().optional(),
+    updateable: z.boolean().optional(),
     // writeRequiresMasterRead: z.boolean().optional(),
     fieldDescription: z.string().optional(),
 });
