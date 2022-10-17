@@ -2,16 +2,13 @@ import { protectedProcedure, router } from "../trpc";
 import jsforce from 'jsforce';
 import { TRPCError } from "@trpc/server";
 import { z, ZodError } from "zod";
-import { sObjectMetadataSchema } from "../../../validator/sobject-metadata.mjs";
-import { describeFieldSchema, sObjectDescribeSchema } from "../../../validator/sobject-describe.mjs";
-import { metadataFieldSchema } from "../../../validator/sobject-metadata.mjs";
-import { SObjectMetadataFieldProps, SObjectMetadataProps } from "../../../types/sobject-metadata";
+import { sObjectMetadataSchema } from "@validator/sobject-metadata.mjs";
+import { describeFieldSchema, sObjectDescribeSchema } from "@validator/sobject-describe.mjs";
+import { metadataFieldSchema } from "@validator/sobject-metadata.mjs";
+import { SObjectMetadataProps } from "../../../types/sobject-metadata";
 import { SObjectDescribeProps } from "../../../types/sobject-describe";
-import { CustomizableSObjectSchema, SObjectMetadataMapProps } from "../../../types/schema-common";
+import { CustomizableSObjectSchema, SObjectDescribeMapProps, SObjectMetadataMapProps } from "../../../types/schema-common";
 
-interface SObjectDescribeMapProps {
-    [key: string]: SObjectMetadataFieldProps[]
-}
 export const schemaObjectRouter = router({
     // Method use to retrieve SObjects that are customizable.
     getCustomizableSObjects: protectedProcedure
