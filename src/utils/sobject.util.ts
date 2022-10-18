@@ -20,7 +20,7 @@ export const fieldValueTransformer = (describeField: SObjectDescribeFieldDTO) =>
         describeField['type'] =
             describeField.type === 'int'
                 ? `${describeField.type}`
-                : `${describeField.type}(${describeField.precision}, ${describeField?.scale})`;
+                : `${describeField.type} (${describeField.precision}, ${describeField?.scale})`;
     }
 
     // Reference Type
@@ -46,6 +46,11 @@ export const fieldValueTransformer = (describeField: SObjectDescribeFieldDTO) =>
     // Currency Type
     if (describeField.type === 'currency' && describeField['length'] != null) {
         describeField['type'] = `${describeField.type} (${describeField['precision']}, ${describeField['length']})`;
+    }
+
+    // Formula Type
+    if (describeField.calculatedFormula != null) {
+        describeField['type'] += ', formula'
     }
 
     // Check if the field is nillable then append (Unique)

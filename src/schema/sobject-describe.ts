@@ -16,6 +16,7 @@ export const describeFieldSchema = z.object({
     name: z.string().optional(),
     nillable: z.boolean().optional(),
     // picklistValues: z.array(picklistValueSchema).optional(),
+    calculatedFormula: z.string().nullable().optional(),
     precision: z.number().optional(),
     referenceTo: z.array(z.string()).optional(),
     restrictedPicklist: z.boolean().optional(),

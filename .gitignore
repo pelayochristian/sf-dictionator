@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 /json
+
+# exclude dev router
+/src/server/trpc/router/test-routes.ts
