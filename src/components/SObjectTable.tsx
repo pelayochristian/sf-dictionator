@@ -1,6 +1,6 @@
 import { Button, Table } from "flowbite-react";
 import React, { useState } from "react";
-import { SObjectDescribeMapProps } from "../types/schema-common";
+import { SObjectDescribeMapProps } from "../dto/schema-common";
 import ExportToExcelButton from "./ExportToExcelButton";
 
 const SObjectTable = ({

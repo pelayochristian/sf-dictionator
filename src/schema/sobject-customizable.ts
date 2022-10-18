@@ -5,3 +5,6 @@ export const customizableSObjectSchema = z.object({
     label: z.string(),
 });
 
+export type CustomizableSObjectDTO = z.infer<
+    typeof customizableSObjectSchema
+>;

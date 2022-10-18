@@ -2,12 +2,19 @@ import { protectedProcedure, router } from "../trpc";
 import jsforce from 'jsforce';
 import { TRPCError } from "@trpc/server";
 import { z, ZodError } from "zod";
-import { sObjectMetadataSchema } from "@schema/sobject-metadata.js";
-import { describeFieldSchema, sObjectDescribeSchema } from "@schema/sobject-describe.js";
-import { metadataFieldSchema } from "@schema/sobject-metadata.js";
-import { SObjectMetadataProps } from "../../../types/sobject-metadata";
-import { SObjectDescribeProps } from "../../../types/sobject-describe";
-import { CustomizableSObjectSchema, SObjectDescribeMapProps, SObjectMetadataMapProps } from "../../../types/schema-common";
+import {
+    metadataFieldSchema,
+    SObjectMetadataDTO,
+    SObjectMetadataFieldsWithKeyDTO,
+    sObjectMetadataSchema
+} from "@schema/sobject-metadata";
+import {
+    describeFieldSchema,
+    SObjectDescribeDTO,
+    SObjectDescribeFieldsWithKeyDTO,
+    sObjectDescribeSchema
+} from "@schema/sobject-describe";
+import { CustomizableSObjectDTO } from "@schema/sobject-customizable";
 
 export const schemaObjectRouter = router({
     // Method use to retrieve SObjects that are customizable.
@@ -20,7 +27,7 @@ export const schemaObjectRouter = router({
                     accessToken: jwt?.accessToken,
                 });
 
-                const sObjects: CustomizableSObjectSchema[] = [];
+                const sObjects: CustomizableSObjectDTO[] = [];
                 conn.query(
                     'SELECT Label, QualifiedApiName ' +
                     'FROM EntityDefinition ' +
@@ -58,7 +65,7 @@ export const schemaObjectRouter = router({
 
             // Map the fields from Describe SObject
             const sObjectMetadataFieldList_Schema = z.array(metadataFieldSchema);
-            const sObjectMetadataMap: SObjectMetadataMapProps = {}
+            const sObjectMetadataMap: SObjectMetadataFieldsWithKeyDTO = {}
             for (const [, sObject] of Object.entries(sObjectMetadata)) {
                 if (!sObject.fullName) return;
                 const fieldWithDescription = sObjectMetadataFieldList_Schema
@@ -73,12 +80,12 @@ export const schemaObjectRouter = router({
             const sObjectsDescribe = await Promise.all(
                 input?.selectedSObject.map(async (sObjectName) => {
                     return await describeSObject(conn, sObjectName);
-                }) as SObjectDescribeProps[]
+                }) as SObjectDescribeDTO[]
             );
 
             // Map the fields from Describe SObject.
             const sObjectDescribeFieldList_Schema = z.array(describeFieldSchema);
-            const sObjectDescribeMap: SObjectDescribeMapProps = {}
+            const sObjectDescribeMap: SObjectDescribeFieldsWithKeyDTO = {}
             for (const [, sObject] of Object.entries(sObjectsDescribe)) {
                 if (!sObject.name) return;
 
@@ -98,10 +105,6 @@ export const schemaObjectRouter = router({
                     })
                 sObjectDescribeMap[sObject.name] = sObjectDescribeFieldList_Schema.parse(updateFieldsWithDescription)
             }
-
-            // return new Promise(async (resolve, reject) => {
-            //     resolve(sObjectDescribeMap)
-            // })
             return sObjectDescribeMap;
         }),
 });
@@ -117,7 +120,7 @@ const fieldTransformer = () => {
  * @returns Promise<unknown>
  */
 const readSObjectMetadata = async (conn: jsforce.Connection, selectedSObject: string[]) => {
-    return new Promise<SObjectMetadataProps[]>((resolve, reject) => {
+    return new Promise<SObjectMetadataDTO[]>((resolve, reject) => {
         conn.metadata.read('CustomObject', selectedSObject ?? [], (err, metadata) => {
             if (err) {
                 reject(new TRPCError({
@@ -150,7 +153,7 @@ const readSObjectMetadata = async (conn: jsforce.Connection, selectedSObject: st
  * @returns Promise<unknown>
  */
 const describeSObject = async (conn: jsforce.Connection, sObjectName: string) => {
-    return new Promise<SObjectDescribeProps>((resolve, reject) => {
+    return new Promise<SObjectDescribeDTO>((resolve, reject) => {
         conn.describe(sObjectName, (err, meta) => {
             if (err) {
                 return reject(err);

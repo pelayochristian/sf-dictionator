@@ -4,7 +4,7 @@ import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import { Button } from "flowbite-react";
 import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
-import { CustomizableSObjectSchema } from "../types/schema-common";
+import { CustomizableSObjectSchema } from "../dto/schema-common";
 import SObjectTable from "./SObjectTable";
 
 const SObjectDuelPicklist = () => {

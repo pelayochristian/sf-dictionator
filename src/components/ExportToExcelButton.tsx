@@ -1,4 +1,4 @@
-import { SObjectDescribeMapProps } from "../types/schema-common";
+import { SObjectDescribeMapProps } from "../dto/schema-common";
 import { Button } from "flowbite-react";
 import React from "react";
 // import XLSX from "xlsx";
