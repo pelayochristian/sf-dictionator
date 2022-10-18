@@ -44,12 +44,12 @@ export const describeFieldSchema = z.object({
     // highScaleNumber: z.boolean().optional(),
     // htmlFormatted: z.boolean().optional(),
     // idLookup: z.boolean().optional(),
-    inlineHelpText: z.string().optional().nullable(), // add
-    label: z.string().optional(), // add
-    length: z.number().optional(), // add
+    inlineHelpText: z.string().optional().nullable(),
+    label: z.string().optional(),
+    length: z.number().optional(),
     // mask: z.null().optional(),
     // maskType: z.null().optional(),
-    name: z.string().optional(), // add
+    name: z.string().optional(),
     // nameField: z.boolean().optional(),
     // namePointing: z.boolean().optional(),
     nillable: z.boolean().optional(), //add
@@ -59,15 +59,15 @@ export const describeFieldSchema = z.object({
     precision: z.number().optional(), //add
     // queryByDistance: z.boolean().optional(),
     // referenceTargetField: z.null().optional(),
-    referenceTo: z.array(z.string()).optional(), // add
+    referenceTo: z.array(z.string()).optional(),
     // relationshipName: z.string().optional().nullable(),
     // relationshipOrder: z.null().optional(),
     // restrictedDelete: z.boolean().optional(),
-    restrictedPicklist: z.boolean().optional(), // add
+    restrictedPicklist: z.boolean().optional(),
     scale: z.number().optional(), //add
     // searchPrefilterable: z.boolean().optional(),
     // sortable: z.boolean().optional(),
-    type: z.string().optional(), // add
+    type: z.string().optional(),
     // unique: z.boolean().optional(),
     updateable: z.boolean().optional(),
     // writeRequiresMasterRead: z.boolean().optional(),

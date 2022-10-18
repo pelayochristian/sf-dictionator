@@ -1,6 +1,7 @@
 import { Button, Table } from "flowbite-react";
 import React, { useState } from "react";
 import { SObjectDescribeMapProps } from "../types/schema-common";
+import ExportToExcelButton from "./ExportToExcelButton";
 
 const SObjectTable = ({
     sObjectsWithDetailsData,
@@ -69,7 +70,7 @@ const SObjectTable = ({
                         return (
                             <li className="mr-2" key={index}>
                                 <button
-                                    className="active inline-block rounded-t-lg bg-gray-100 p-4 text-blue-600 dark:bg-gray-800 dark:text-blue-500"
+                                    className="active inline-block rounded-t-md bg-gray-100 p-4 text-blue-600 dark:bg-gray-800 dark:text-blue-500"
                                     onClick={updateSObjectDataViaTab}
                                     data-sobject={item}
                                 >
@@ -81,7 +82,7 @@ const SObjectTable = ({
                         return (
                             <li className="mr-2" key={index}>
                                 <button
-                                    className="inline-block rounded-t-lg p-4 hover:bg-gray-50 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                                    className="inline-block rounded-t-md p-4 hover:bg-gray-50 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
                                     onClick={updateSObjectDataViaTab}
                                     data-sobject={item}
                                 >
@@ -109,45 +110,48 @@ const SObjectTable = ({
         setSObjectNameState(sObjectName);
     };
 
-    /**
-     * Method use to export data to CSV.
-     */
-    const exportToCSV = () => {
-        console.log("test", sObjectsWithDetailsData[defaultSObjectName]);
-    };
-
     return (
         <section className="container mx-auto mt-20  mb-20 items-center justify-between">
-            <div className="flex flex-wrap justify-end">
-                <div>
-                    <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
-                        Export
-                    </Button>
+            {Object.keys(sObjectsWithDetailsData).length === 0 ? (
+                <div className="shadow-md dark:bg-gray-800 p-14 rounded-md">
+                    <p>No data Available.</p>
                 </div>
-            </div>
-            {/* SObject Tabs */}
-            <div className="overflow-x-auto">
-                <ul className="flex border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
-                    {getSObjectButtonTabs()}
-                </ul>
-            </div>
+            ) : (
+                <div>
+                    {/* Export Button */}
+                    <ExportToExcelButton
+                        sObjectsWithDetailsData={sObjectsWithDetailsData}
+                    />
 
-            {/* SObject Fields Table */}
-            <div className="relative h-[36rem] overflow-x-auto shadow-md dark:bg-gray-800">
-                <Table hoverable={true}>
-                    <Table.Head>
-                        <Table.HeadCell className="!p-4">R/O</Table.HeadCell>
-                        <Table.HeadCell>M</Table.HeadCell>
-                        <Table.HeadCell>Name</Table.HeadCell>
-                        <Table.HeadCell>Description</Table.HeadCell>
-                        <Table.HeadCell>Helptext</Table.HeadCell>
-                        <Table.HeadCell>API Name</Table.HeadCell>
-                        <Table.HeadCell>Type</Table.HeadCell>
-                        <Table.HeadCell>Value/Formula</Table.HeadCell>
-                    </Table.Head>
-                    <Table.Body className="divide-y">{getTableRows}</Table.Body>
-                </Table>
-            </div>
+                    {/* SObject Tabs */}
+                    <div className="overflow-x-auto">
+                        <ul className="flex border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                            {getSObjectButtonTabs()}
+                        </ul>
+                    </div>
+
+                    {/* SObject Fields Table */}
+                    <div className="relative h-[36rem] overflow-x-auto shadow-md dark:bg-gray-800">
+                        <Table hoverable={true}>
+                            <Table.Head>
+                                <Table.HeadCell className="!p-4">
+                                    R/O
+                                </Table.HeadCell>
+                                <Table.HeadCell>M</Table.HeadCell>
+                                <Table.HeadCell>Name</Table.HeadCell>
+                                <Table.HeadCell>Description</Table.HeadCell>
+                                <Table.HeadCell>Helptext</Table.HeadCell>
+                                <Table.HeadCell>API Name</Table.HeadCell>
+                                <Table.HeadCell>Type</Table.HeadCell>
+                                <Table.HeadCell>Value/Formula</Table.HeadCell>
+                            </Table.Head>
+                            <Table.Body className="divide-y">
+                                {getTableRows}
+                            </Table.Body>
+                        </Table>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };
