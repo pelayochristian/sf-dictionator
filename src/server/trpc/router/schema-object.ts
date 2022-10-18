@@ -2,9 +2,9 @@ import { protectedProcedure, router } from "../trpc";
 import jsforce from 'jsforce';
 import { TRPCError } from "@trpc/server";
 import { z, ZodError } from "zod";
-import { sObjectMetadataSchema } from "@validator/sobject-metadata.mjs";
-import { describeFieldSchema, sObjectDescribeSchema } from "@validator/sobject-describe.mjs";
-import { metadataFieldSchema } from "@validator/sobject-metadata.mjs";
+import { sObjectMetadataSchema } from "@schema/sobject-metadata.js";
+import { describeFieldSchema, sObjectDescribeSchema } from "@schema/sobject-describe.js";
+import { metadataFieldSchema } from "@schema/sobject-metadata.js";
 import { SObjectMetadataProps } from "../../../types/sobject-metadata";
 import { SObjectDescribeProps } from "../../../types/sobject-describe";
 import { CustomizableSObjectSchema, SObjectDescribeMapProps, SObjectMetadataMapProps } from "../../../types/schema-common";
@@ -90,6 +90,9 @@ export const schemaObjectRouter = router({
                             if (describeField.name === metadataField.fullName) {
                                 describeField.fieldDescription = metadataField.description;
                             }
+
+
+
                         })
                         return describeField;
                     })
@@ -102,6 +105,10 @@ export const schemaObjectRouter = router({
             return sObjectDescribeMap;
         }),
 });
+
+const fieldTransformer = () => {
+    return;
+}
 
 /**
  *  Utility method to read SObject Metadata by passing SObject Array Name.

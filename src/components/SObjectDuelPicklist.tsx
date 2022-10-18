@@ -50,7 +50,7 @@ const SObjectDuelPicklist = () => {
 
     return (
         <>
-            <section className="container mx-auto mt-28 flex flex-wrap items-center justify-between rounded-md dark:bg-gray-800">
+            <section className="container mx-auto mt-36 flex flex-wrap items-center justify-between rounded-md dark:bg-gray-800">
                 <div className="w-full p-14 shadow-md">
                     <div className="mb-4 border-l-4 border-l-green-400 p-2 text-sm">
                         <p>
