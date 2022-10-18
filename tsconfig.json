@@ -23,8 +23,8 @@
       "@types/*": [
         "types/*"
       ],
-      "@validator/*": [
-        "validator/*"
+      "@schema/*": [
+        "schema/*"
       ]
     },
     "baseUrl": "src",

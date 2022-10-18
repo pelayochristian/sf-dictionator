@@ -4,8 +4,8 @@ import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import { Button } from "flowbite-react";
 import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
-import { CustomizableSObjectSchema } from "../types/schema-common";
 import SObjectTable from "./SObjectTable";
+import { CustomizableSObjectDTO } from "@schema/sobject-customizable";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState<string[]>([]);
@@ -13,11 +13,11 @@ const SObjectDuelPicklist = () => {
     /**
      * Get Customizable SObjects.
      */
-    let customizableSObjects: CustomizableSObjectSchema[] = [];
+    let customizableSObjects: CustomizableSObjectDTO[] = [];
     const { data: ctmSObjects, isLoading } =
         trpc.schemaObjectRouter.getCustomizableSObjects.useQuery();
     if (!isLoading) {
-        customizableSObjects = ctmSObjects as CustomizableSObjectSchema[];
+        customizableSObjects = ctmSObjects as CustomizableSObjectDTO[];
     }
 
     /**
@@ -50,7 +50,7 @@ const SObjectDuelPicklist = () => {
 
     return (
         <>
-            <section className="container mx-auto mt-28 flex flex-wrap items-center justify-between rounded-lg dark:bg-gray-800">
+            <section className="container mx-auto mt-36 flex flex-wrap items-center justify-between rounded-md dark:bg-gray-800">
                 <div className="w-full p-14 shadow-md">
                     <div className="mb-4 border-l-4 border-l-green-400 p-2 text-sm">
                         <p>
@@ -166,11 +166,7 @@ const SObjectDuelPicklist = () => {
                     </div>
                 </div>
             </section>
-            {data ? (
-                <SObjectTable sObjectsWithDetailsData={data} />
-            ) : (
-                <p>test</p>
-            )}
+            <SObjectTable sObjectsWithDetailsData={data ?? {}} />
         </>
     );
 };
