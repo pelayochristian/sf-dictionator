@@ -24,11 +24,11 @@ export const sObjectMetadataFieldsWithKeySchema = z.record(
     z.array(metadataFieldSchema)
 );
 
-// Single Object Type of SObjectMetadata Fields
-export type SObjectMetadataFieldDTO = z.infer<typeof metadataFieldSchema>;
-
 // Array Object Type of SObjectMetadata
 export type SObjectMetadataDTO = z.infer<typeof sObjectMetadataSchema>;
+
+// Single Object Type of SObjectMetadata Fields
+export type SObjectMetadataFieldDTO = z.infer<typeof metadataFieldSchema>;
 
 // Single Object Type of SObjectMetadataFields with Key
 export type SObjectMetadataFieldsWithKeyDTO = z.infer<typeof sObjectMetadataFieldsWithKeySchema>;

@@ -1,4 +1,4 @@
-import { SObjectDescribeMapProps } from "../dto/schema-common";
+import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
 import { Button } from "flowbite-react";
 import React from "react";
 // import XLSX from "xlsx";
@@ -7,7 +7,7 @@ import XLSX from "sheetjs-style";
 const ExportToExcelButton = ({
     sObjectsWithDetailsData,
 }: {
-    sObjectsWithDetailsData: SObjectDescribeMapProps;
+    sObjectsWithDetailsData: SObjectDescribeFieldsWithKeyDTO;
 }) => {
     /**
      * Handle the export to Excel.

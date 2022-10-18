@@ -23,6 +23,7 @@ export const describeFieldSchema = z.object({
     type: z.string().optional(),
     updateable: z.boolean().optional(),
     fieldDescription: z.string().optional(),
+    externalId: z.boolean().optional()
 });
 
 export const sObjectDescribeSchema = z.object({
@@ -37,12 +38,11 @@ export const sObjectDescribeFieldsWithKeySchema = z.record(
     z.array(describeFieldSchema)
 );
 
+// Array Object Type of SObjectDescribe
+export type SObjectDescribeDTO = z.infer<typeof sObjectDescribeSchema>;
 
 // Single Object Type of SObjectDescribe Fields
 export type SObjectDescribeFieldDTO = z.infer<typeof describeFieldSchema>;
-
-// Array Object Type of SObjectDescribe
-export type SObjectDescribeDTO = z.infer<typeof sObjectDescribeSchema>;
 
 // Single Object Type of SObjectDescribe with Key
 export type SObjectDescribeFieldsWithKeyDTO = z.infer<typeof sObjectDescribeFieldsWithKeySchema>;

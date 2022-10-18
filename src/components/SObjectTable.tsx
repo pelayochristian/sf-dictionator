@@ -1,12 +1,12 @@
+import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
 import { Button, Table } from "flowbite-react";
 import React, { useState } from "react";
-import { SObjectDescribeMapProps } from "../dto/schema-common";
 import ExportToExcelButton from "./ExportToExcelButton";
 
 const SObjectTable = ({
     sObjectsWithDetailsData,
 }: {
-    sObjectsWithDetailsData: SObjectDescribeMapProps;
+    sObjectsWithDetailsData: SObjectDescribeFieldsWithKeyDTO;
 }) => {
     const [sObjectNameState, setSObjectNameState] = useState("");
 
@@ -113,7 +113,7 @@ const SObjectTable = ({
     return (
         <section className="container mx-auto mt-20  mb-20 items-center justify-between">
             {Object.keys(sObjectsWithDetailsData).length === 0 ? (
-                <div className="shadow-md dark:bg-gray-800 p-14 rounded-md">
+                <div className="rounded-md p-14 shadow-md dark:bg-gray-800">
                     <p>No data Available.</p>
                 </div>
             ) : (

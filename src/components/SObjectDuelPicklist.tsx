@@ -4,8 +4,8 @@ import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import { Button } from "flowbite-react";
 import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
-import { CustomizableSObjectSchema } from "../dto/schema-common";
 import SObjectTable from "./SObjectTable";
+import { CustomizableSObjectDTO } from "@schema/sobject-customizable";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState<string[]>([]);
@@ -13,11 +13,11 @@ const SObjectDuelPicklist = () => {
     /**
      * Get Customizable SObjects.
      */
-    let customizableSObjects: CustomizableSObjectSchema[] = [];
+    let customizableSObjects: CustomizableSObjectDTO[] = [];
     const { data: ctmSObjects, isLoading } =
         trpc.schemaObjectRouter.getCustomizableSObjects.useQuery();
     if (!isLoading) {
-        customizableSObjects = ctmSObjects as CustomizableSObjectSchema[];
+        customizableSObjects = ctmSObjects as CustomizableSObjectDTO[];
     }
 
     /**
