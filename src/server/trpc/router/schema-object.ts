@@ -61,7 +61,7 @@ export const schemaObjectRouter = router({
             // Retrieve SObject Metadata from Salesforce.
             const sObjectMetadata = await readSObjectMetadata(conn, input?.selectedSObject ?? [])
 
-            // Map the fields from Describe SObject
+            // Map the fields from Metadata SObject
             const sObjectMetadataFieldList_Schema = z.array(metadataFieldSchema);
             const sObjectMetadataMap: SObjectMetadataFieldsWithKeyDTO = {}
             for (const [, sObject] of Object.entries(sObjectMetadata)) {
@@ -104,7 +104,7 @@ export const schemaObjectRouter = router({
                 sObjectDescribeMap[sObject.name] = sObjectDescribeFieldList_Schema.parse(updateFieldsWithDescription)
             }
             return sObjectDescribeMap;
-        }),
+        })
 });
 
 

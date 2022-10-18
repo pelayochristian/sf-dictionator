@@ -45,14 +45,8 @@ const SObjectTable = ({
                     <Table.Cell>{field.inlineHelpText}</Table.Cell>
                     <Table.Cell>{field.name}</Table.Cell>
                     <Table.Cell>{field.type}</Table.Cell>
-                    <Table.Cell>
-                        <a
-                            href="/tables"
-                            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                        >
-                            Edit
-                        </a>
-                    </Table.Cell>
+                    <Table.Cell>{field.calculatedFormula}</Table.Cell>
+                    <Table.Cell>tmp</Table.Cell>
                 </Table.Row>
             );
         }
@@ -143,7 +137,8 @@ const SObjectTable = ({
                                 <Table.HeadCell>Helptext</Table.HeadCell>
                                 <Table.HeadCell>API Name</Table.HeadCell>
                                 <Table.HeadCell>Type</Table.HeadCell>
-                                <Table.HeadCell>Value/Formula</Table.HeadCell>
+                                <Table.HeadCell>Formula</Table.HeadCell>
+                                <Table.HeadCell>Picklist</Table.HeadCell>
                             </Table.Head>
                             <Table.Body className="divide-y">
                                 {getTableRows}
