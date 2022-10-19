@@ -15,7 +15,7 @@ export const describeFieldSchema = z.object({
     length: z.number().optional(),
     name: z.string().optional(),
     nillable: z.boolean().optional(),
-    // picklistValues: z.array(picklistValueSchema).optional(),
+    picklistValues: z.array(picklistValueSchema).optional(),
     calculatedFormula: z.string().nullable().optional(),
     precision: z.number().optional(),
     referenceTo: z.array(z.string()).optional(),
@@ -24,7 +24,8 @@ export const describeFieldSchema = z.object({
     type: z.string().optional(),
     updateable: z.boolean().optional(),
     fieldDescription: z.string().optional(),
-    externalId: z.boolean().optional()
+    externalId: z.boolean().optional(),
+    unique: z.boolean().optional()
 });
 
 export const sObjectDescribeSchema = z.object({

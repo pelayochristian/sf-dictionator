@@ -32,11 +32,7 @@ const SObjectTable = ({
                         {field.updateable ? "✓" : "☐"}
                     </Table.Cell>
                     <Table.Cell className="text-red-600">
-                        {!field.nillable &&
-                        field.updateable &&
-                        field.type !== "boolean"
-                            ? "*"
-                            : ""}
+                        {!field.nillable ? "*" : ""}
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                         {field.label}
@@ -46,7 +42,11 @@ const SObjectTable = ({
                     <Table.Cell>{field.name}</Table.Cell>
                     <Table.Cell>{field.type}</Table.Cell>
                     <Table.Cell>{field.calculatedFormula}</Table.Cell>
-                    <Table.Cell>tmp</Table.Cell>
+                    <Table.Cell>
+                        {field.picklistValues?.map((el) => {
+                            return `${el.label},\n`;
+                        })}
+                    </Table.Cell>
                 </Table.Row>
             );
         }
