@@ -54,7 +54,7 @@ export const fieldValueTransformer = (describeField: SObjectDescribeFieldDTO) =>
     }
 
     // Check if the field is nillable then append (Unique)
-    if (!describeField?.nillable) {
+    if (describeField?.unique) {
         describeField['type'] += ', unique';
     }
 
