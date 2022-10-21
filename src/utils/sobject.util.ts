@@ -68,7 +68,7 @@ export const fieldValueTransformer = (describeField: SObjectDescribeFieldDTO) =>
  *  Utility method to read SObject Metadata by passing SObject Array Name.
  * @param conn Salesforce jsForce Connection.
  * @param selectedSObject List of Selected SObject in String of Array.
- * @returns Promise<unknown>
+ * @returns Promise<SObjectMetadataDTO[]>
  */
 export const readSObjectMetadata = async (conn: jsforce.Connection, selectedSObject: string[]) => {
     return new Promise<SObjectMetadataDTO[]>((resolve, reject) => {
@@ -101,7 +101,7 @@ export const readSObjectMetadata = async (conn: jsforce.Connection, selectedSObj
  *  Utility method use to retrieve the SObject Details
  * @param conn Salesforce jsForce Connection.
  * @param sObjectName SObject in string data type.
- * @returns Promise<unknown>
+ * @returns Promise<SObjectDescribeDTO>
  */
 export const describeSObject = async (conn: jsforce.Connection, sObjectName: string) => {
     return new Promise<SObjectDescribeDTO>((resolve, reject) => {
