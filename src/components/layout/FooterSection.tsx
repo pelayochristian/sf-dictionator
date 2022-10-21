@@ -1,6 +1,6 @@
-import { Footer } from 'flowbite-react';
-import Image from 'next/image';
-import React from 'react';
+import { Footer } from "flowbite-react";
+import Image from "next/image";
+import React from "react";
 
 const FooterSection = () => {
     const getCurrentYear = () => {
@@ -8,9 +8,9 @@ const FooterSection = () => {
     };
 
     return (
-        <div className="fixed bottom-0 w-full z-20">
+        <div className="w-full">
             <Footer container={true}>
-                <div className="container flex flex-wrap justify-between items-center mx-auto">
+                <div className="container mx-auto flex flex-wrap items-center justify-between">
                     <Footer.Copyright
                         href="#"
                         by="Christian Pelayo"
