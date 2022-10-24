@@ -1,7 +1,7 @@
 import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
 import { Button } from "flowbite-react";
 import React from "react";
-import XLSX from "sheetjs-style";
+import XLSX from "xlsx-js-style";
 
 const ExportToExcelButton = ({
     sObjectsWithDetailsData,
@@ -21,10 +21,14 @@ const ExportToExcelButton = ({
 
             // Filter Rows Data
             const rows = sObjectsWithDetailsData[key]?.map((row) => ({
+                "R/O": row.updateable ? "✓" : "☐",
+                R: !row.nillable ? "*" : "",
                 label: row.label ?? "",
                 name: row.name ?? "",
                 fieldDescription: row.fieldDescription ?? "",
                 inlineHelpText: row.inlineHelpText ?? "",
+                custom: row.custom ?? false,
+                externalId: row.externalId ?? false,
                 type: row.type ?? "",
                 calculatedFormula: row.calculatedFormula ?? "",
                 picklistValues:
@@ -40,13 +44,17 @@ const ExportToExcelButton = ({
                 worksheet,
                 [
                     [
+                        "R/O",
+                        "M",
                         "Label",
-                        "Name",
+                        "API Name",
                         "Description",
                         "HelpText",
+                        "Is Custom",
+                        "Is External ID",
                         "Type",
-                        "Formula",
-                        "Picklist",
+                        "Formula Text",
+                        "Picklist Values",
                     ],
                 ],
                 {
@@ -54,16 +62,18 @@ const ExportToExcelButton = ({
                 }
             );
 
-            worksheet["A1"].s = {
-                font: {
-                    bold: true,
-                },
-                fill: {
-                    bgColor: { rgb: "FFFFAA00" },
-                },
-            };
+            // Add Custom Styling
+            setCustomStyling(worksheet);
 
             // Width Configuration for each Fields
+            const readOnlyMaxWidth = rows?.reduce(
+                (w, r) => Math.max(w, r["R/O"].length),
+                4
+            );
+            const requiredMaxWidth = rows?.reduce(
+                (w, r) => Math.max(w, r.R.length),
+                2
+            );
             const labelMaxWidth = rows?.reduce(
                 (w, r) => Math.max(w, r.label.length),
                 10
@@ -74,34 +84,40 @@ const ExportToExcelButton = ({
             );
             const descriptionMaxWidth = rows?.reduce(
                 (w, r) => Math.max(w, r.fieldDescription.length),
-                10
+                12
             );
             const helptextMaxWidth = rows?.reduce(
                 (w, r) => Math.max(w, r.inlineHelpText.length),
                 10
             );
+            const isCustomMaxWidth = 11;
+            const isExternalMaxWidth = 16;
             const typeMaxWidth = rows?.reduce(
                 (w, r) => Math.max(w, r.type.length),
                 10
             );
             const formulaMaxWidth = rows?.reduce(
                 (w, r) => Math.max(w, r.calculatedFormula.length),
-                10
+                14
             );
             const picklistMaxWidth = Math.max(
                 ...(rows?.map((row) =>
                     row.picklistValues
                         .split("\n")
-                        .reduce((w, r) => Math.max(w, r.length), 10)
+                        .reduce((w, r) => Math.max(w, r.length), 17)
                 ) ?? [])
             );
 
             // Set the Max Width for each field
             worksheet["!cols"] = [
+                { wch: readOnlyMaxWidth },
+                { wch: requiredMaxWidth },
                 { wch: nameMaxWidth },
                 { wch: labelMaxWidth },
                 { wch: descriptionMaxWidth },
                 { wch: helptextMaxWidth },
+                { wch: isCustomMaxWidth },
+                { wch: isExternalMaxWidth },
                 { wch: typeMaxWidth },
                 { wch: formulaMaxWidth },
                 { wch: picklistMaxWidth },
@@ -114,6 +130,125 @@ const ExportToExcelButton = ({
         XLSX.writeFile(workbook, "MySalesforceDictionary.xlsx", {
             compression: true,
         });
+    };
+
+    const setCustomStyling = (worksheet: XLSX.WorkSheet) => {
+        const HEADER_ROW = 0;
+        const READ_ONLY_COL = 0;
+        const REQUIRED_COL = 1;
+        const LABEL_COL = 2;
+        const TYPE_COL = 8;
+        for (const i in worksheet) {
+            if (typeof worksheet[i] != "object") continue;
+            const cell = XLSX.utils.decode_cell(i);
+
+            // Global Cell Styling
+            worksheet[i].s = {
+                font: {
+                    sz: 12,
+                    name: "Calibri",
+                },
+                alignment: {
+                    wrapText: "1",
+                },
+            };
+
+            // Header Column Styling
+            if (cell.r === HEADER_ROW) {
+                worksheet[i].s = {
+                    fill: {
+                        fgColor: { rgb: "0365f3" },
+                    },
+                    font: {
+                        sz: 12,
+                        bold: true,
+                        color: { rgb: "FFFFFF" },
+                    },
+                };
+            }
+
+            // Header Column Not Include Styling
+            if (cell.r != HEADER_ROW) {
+                // Read Only Column Styling
+                if (cell.c === READ_ONLY_COL) {
+                    worksheet[i].s = {
+                        font: {
+                            sz: 12,
+                        },
+                        alignment: {
+                            vertical: "center",
+                            horizontal: "center",
+                            wrapText: "1",
+                        },
+                    };
+                }
+
+                // Required Column Styling
+                if (cell.c === REQUIRED_COL) {
+                    worksheet[i].s = {
+                        font: {
+                            sz: 12,
+                            bold: true,
+                            color: { rgb: "dc2626" },
+                        },
+                        alignment: {
+                            vertical: "center",
+                            horizontal: "center",
+                            wrapText: "1",
+                        },
+                    };
+                }
+
+                // Label Column Styling
+                if (cell.c === LABEL_COL) {
+                    worksheet[i].s = {
+                        font: {
+                            sz: 12,
+                            bold: true,
+                        },
+                    };
+                }
+
+                // Type Column Styling
+                if (cell.c === TYPE_COL) {
+                    worksheet[i].s = {
+                        font: {
+                            sz: 12,
+                            name: "Calibri",
+                            italic: true,
+                        },
+                    };
+                }
+            }
+
+            // Every other row Styling
+            if (cell.r % 2) {
+                worksheet[i].s.fill = {
+                    patternType: "solid",
+                    fgColor: { rgb: "f2f1f3" },
+                    bgColor: { rgb: "f2f1f3" },
+                };
+            }
+
+            worksheet[i].s.border = {
+                right: {
+                    style: "thin",
+                    color: { rgb: "d1d5db" },
+                },
+                left: {
+                    style: "thin",
+                    color: { rgb: "d1d5db" },
+                },
+                top: {
+                    style: "thin",
+                    color: { rgb: "d1d5db" },
+                },
+                bottom: {
+                    style: "thin",
+                    color: { rgb: "d1d5db" },
+                },
+            };
+        }
     };
 
     return (
