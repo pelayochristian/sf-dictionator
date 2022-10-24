@@ -1,5 +1,5 @@
 import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
-import { Button, Table } from "flowbite-react";
+import { Table } from "flowbite-react";
 import React, { useState } from "react";
 import ExportToExcelButton from "./ExportToExcelButton";
 
