@@ -126,6 +126,8 @@ const ExportToExcelButton = ({
             XLSX.utils.book_append_sheet(workbook, worksheet, key);
         });
 
+        XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+        XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
         // Execute export
         XLSX.writeFile(workbook, "MySalesforceDictionary.xlsx");
     };
