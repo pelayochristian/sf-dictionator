@@ -252,9 +252,40 @@ const ExportToExcelButton = ({
         }
     };
 
+    const json = [
+        {
+            name: "jon",
+            surname: "doe",
+        },
+        {
+            name: "jon",
+            surname: "doe",
+        },
+    ];
+
+    const downloadxls = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        data: any
+    ) => {
+        console.log(data);
+        e.preventDefault();
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+        /* generate XLSX file and send to client */
+        XLSX.writeFile(wb, "sheetjs.xlsx");
+    };
+
     return (
         <div className="flex flex-wrap justify-end">
             <div>
+                <button
+                    onClick={(e) => {
+                        downloadxls(e, json);
+                    }}
+                >
+                    test
+                </button>
                 <Button
                     gradientDuoTone="greenToBlue"
                     onClick={(e) => exportToCSV(e)}
