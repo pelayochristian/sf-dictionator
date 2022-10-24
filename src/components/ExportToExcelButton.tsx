@@ -11,7 +11,10 @@ const ExportToExcelButton = ({
     /**
      * Handle the export to Excel.
      */
-    const exportToCSV = () => {
+    const exportToCSV = async (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        e.preventDefault();
         // Initialize new Book
         const workbook = XLSX.utils.book_new();
 
@@ -126,10 +129,8 @@ const ExportToExcelButton = ({
             XLSX.utils.book_append_sheet(workbook, worksheet, key);
         });
 
-        XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
-        XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
         // Execute export
-        XLSX.writeFile(workbook, "MySalesforceDictionary.xlsx");
+        await XLSX.writeFile(workbook, "MySalesforceDictionary.xlsx");
     };
 
     const setCustomStyling = (worksheet: XLSX.WorkSheet) => {
@@ -254,7 +255,10 @@ const ExportToExcelButton = ({
     return (
         <div className="flex flex-wrap justify-end">
             <div>
-                <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
+                <Button
+                    gradientDuoTone="greenToBlue"
+                    onClick={(e) => exportToCSV(e)}
+                >
                     Export
                 </Button>
             </div>
