@@ -24,8 +24,6 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-dual-listbox": "^2.3.0",
-        "react-export-excel": "^0.5.3",
-        "sheetjs-style": "^0.15.8",
         "superjson": "1.9.1",
         "xlsx-js-style": "^1.2.0",
         "zod": "^3.18.0"
