@@ -2,6 +2,7 @@ import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
 import { Button } from "flowbite-react";
 import React from "react";
 import { utils, WorkSheet, writeFile } from "xlsx-js-style";
+import ExportExcelPOC from "./misc/ExportExcelPOC";
 
 const ExportToExcelButton = ({
     sObjectsWithDetailsData,
@@ -256,6 +257,7 @@ const ExportToExcelButton = ({
     return (
         <div className="flex flex-wrap justify-end">
             <div>
+                <ExportExcelPOC />
                 <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
                     Export
                 </Button>

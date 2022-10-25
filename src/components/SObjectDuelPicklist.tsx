@@ -6,7 +6,6 @@ import { Button } from "flowbite-react";
 import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
 import SObjectTable from "./SObjectTable";
 import { CustomizableSObjectDTO } from "@schema/sobject-customizable";
-import ExportPOC from "./ExportPOC";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState<string[]>([]);
@@ -167,8 +166,7 @@ const SObjectDuelPicklist = () => {
                     </div>
                 </div>
             </section>
-            <ExportPOC />
-            {/* <SObjectTable sObjectsWithDetailsData={data ?? {}} /> */}
+            <SObjectTable sObjectsWithDetailsData={data ?? {}} />
         </>
     );
 };
