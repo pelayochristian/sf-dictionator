@@ -1,7 +1,8 @@
 import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
 import { Button } from "flowbite-react";
 import React from "react";
-import { utils, WorkSheet, writeFile } from "xlsx-js-style";
+import { utils, WorkSheet, writeFile, write } from "xlsx-js-style";
+import * as FileSaver from "file-saver";
 
 const ExportToExcelButton = ({
     sObjectsWithDetailsData,
@@ -254,26 +255,33 @@ const ExportToExcelButton = ({
     };
 
     const testExport = () => {
-        const wb = utils.book_new();
-        const ws = utils.aoa_to_sheet([
-            ["SheetJS", "<3", "விரிதாள்"],
-            [72, , "Arbeitsblätter"],
-            [, 62, "数据"],
-            [true, false],
-        ]);
-        utils.book_append_sheet(wb, ws, "Sheet1");
-        writeFile(wb, "textport.xlsx", {
-            compression: true,
-        });
+        const fileType =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        const fileExtension = ".xlsx";
 
-        writeFile(wb, "out.xlsb");
-
+        const apiData = [
+            {
+                firstName: "Christian1",
+                lastName: "Pelayo1",
+            },
+            {
+                firstName: "Christian2",
+                lastName: "Pelayo2",
+            },
+        ];
+        const ws = utils.json_to_sheet(apiData);
+        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+        const excelBuffer = write(wb, { bookType: "xlsx", type: "array" });
+        const data = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data, "testSheet" + fileExtension);
     };
 
     return (
         <div className="flex flex-wrap justify-end">
             <div>
-                <Button onClick={testExport}>test</Button>
+                <Button gradientDuoTone="greenToBlue" onClick={testExport}>
+                    Test
+                </Button>
                 <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
                     Export
                 </Button>
