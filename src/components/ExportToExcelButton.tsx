@@ -1,8 +1,7 @@
 import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
 import { Button } from "flowbite-react";
 import React from "react";
-import { utils, writeFileXLSX, WorkSheet, write } from "xlsx-js-style";
-import { saveAs } from "file-saver";
+import { utils, WorkSheet, writeFile } from "xlsx-js-style";
 
 const ExportToExcelButton = ({
     sObjectsWithDetailsData,
@@ -62,8 +61,6 @@ const ExportToExcelButton = ({
                     origin: "A1",
                 }
             );
-
-            console.log("Worksheet", ws);
 
             // Add Custom Styling
             setCustomStyling(ws);
@@ -130,21 +127,13 @@ const ExportToExcelButton = ({
         });
 
         // Execute export
-        //  await writeFileXLSX(wb, "MySalesforceDictionary.xlsx");
-        const wbout = write(wb, { bookType: "xlsx", type: "binary" });
-        saveAs(
-            new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
-            "test.xlsx"
-        );
+        writeFile(wb, "MySalesforceDictionary.xlsx");
     };
 
-    const s2ab = (s: any) => {
-        const buf = new ArrayBuffer(s.length);
-        const view = new Uint8Array(buf);
-        for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff;
-        return buf;
-    };
-
+    /**
+     * Add Custom Styling
+     * @param ws WorkSheet
+     */
     const setCustomStyling = (ws: WorkSheet) => {
         const HEADER_ROW = 0;
         const READ_ONLY_COL = 0;
