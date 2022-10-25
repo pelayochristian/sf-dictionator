@@ -19,7 +19,6 @@
         "flowbite": "^1.5.3",
         "flowbite-react": "^0.2.0",
         "jsforce": "^1.11.0",
-        "json2xls": "^0.1.2",
         "next": "12.3.1",
         "next-auth": "^4.12.3",
         "react": "18.2.0",
@@ -28,7 +27,6 @@
         "react-export-excel": "^0.5.3",
         "sheetjs-style": "^0.15.8",
         "superjson": "1.9.1",
-        "xlsx": "^0.18.5",
         "xlsx-js-style": "^1.2.0",
         "zod": "^3.18.0"
     },
