@@ -265,7 +265,9 @@ const ExportToExcelButton = ({
         writeFile(wb, "textport.xlsx", {
             compression: true,
         });
-        1;
+
+        writeFile(wb, "out.xlsb");
+
     };
 
     return (

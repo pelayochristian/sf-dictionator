@@ -6,6 +6,7 @@ import { Button } from "flowbite-react";
 import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
 import SObjectTable from "./SObjectTable";
 import { CustomizableSObjectDTO } from "@schema/sobject-customizable";
+import SheetJSReactAoO from "./SheetJSReactAoO";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState<string[]>([]);
@@ -167,6 +168,7 @@ const SObjectDuelPicklist = () => {
                 </div>
             </section>
             <SObjectTable sObjectsWithDetailsData={data ?? {}} />
+            <SheetJSReactAoO />
         </>
     );
 };
