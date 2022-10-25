@@ -13,9 +13,6 @@ import {
     SObjectDescribeFieldsWithKeyDTO,
 } from "@schema/sobject-describe";
 import { describeSObject, fieldValueTransformer, readSObjectMetadata } from "utils/sobject.util";
-import ExcelJs from 'exceljs'
-import fs from 'fs';
-
 
 export const schemaObjectRouter = router({
     // Method use to retrieve SObjects that are customizable.
@@ -108,22 +105,6 @@ export const schemaObjectRouter = router({
             }
             return sObjectDescribeMap;
         }),
-
-    textExportExcel: protectedProcedure
-        .query(async ({ ctx }) => {
-            const wb = await new ExcelJs.Workbook();
-            const PUBLIC_FILE_PATH = "./MySalesforceDictionary.xlsx";
-            await wb.xlsx.readFile(PUBLIC_FILE_PATH).then(() => {
-                const ws = wb.getWorksheet(1);
-                ws.getCell("H4").value = "OKM";
-            });
-
-
-
-            await wb.xlsx.writeFile(PUBLIC_FILE_PATH);
-            const stream = fs.readFileSync(PUBLIC_FILE_PATH);
-            return { xxx: stream.toString("base64") }
-        })
 });
 
 

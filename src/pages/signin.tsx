@@ -8,11 +8,11 @@ import {
 } from "next-auth/react";
 import { InferGetServerSidePropsType } from "next";
 import { Card } from "flowbite-react";
-import Image from "next/image";
+// import Image from "next/image";
 
-const providersIcons = {
-    Salesforce: "/icons/salesforce-svgrepo-com.svg",
-};
+// const providersIcons = {
+//     Salesforce: "/icons/salesforce-svgrepo-com.svg",
+// };
 
 interface Providers {
     callbackUrl?: string;
