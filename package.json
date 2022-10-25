@@ -26,8 +26,6 @@
         "react-dom": "18.2.0",
         "react-dual-listbox": "^2.3.0",
         "superjson": "1.9.1",
-        "write-excel-file": "^1.4.13",
-        "xlsx-js-style": "^1.2.0",
         "zod": "^3.18.0"
     },
     "devDependencies": {

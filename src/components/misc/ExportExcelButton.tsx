@@ -48,7 +48,7 @@ const ExportExcelButton = ({
                 picklistValues:
                     row.picklistValues
                         ?.map((picklist) => picklist.label)
-                        .join("\n") ?? "",
+                        .join(",\n") ?? "",
             }));
 
             sheet.columns = [
@@ -56,12 +56,12 @@ const ExportExcelButton = ({
                     key: "R/O",
                     width: rows?.reduce(
                         (w, r) => Math.max(w, r["R/O"].length),
-                        4
+                        5
                     ),
                 },
                 {
                     key: "M",
-                    width: rows?.reduce((w, r) => Math.max(w, r.M.length), 2),
+                    width: rows?.reduce((w, r) => Math.max(w, r.M.length), 3),
                 },
                 {
                     key: "label",
@@ -112,20 +112,116 @@ const ExportExcelButton = ({
                     width: Math.max(
                         ...(rows?.map((row) =>
                             row.picklistValues
-                                .split("\n")
+                                .split(",\n")
                                 .reduce((w, r) => Math.max(w, r.length), 17)
                         ) ?? [])
                     ),
                 },
             ];
-
-            console.log("rows", rows);
             sheet.addRows(rows ?? []);
+
+            const row = sheet.getRow(1);
+            const READ_ONLY_ROW = 1;
+            const MANDATORY_ROW = 2;
+            const LABEL_ROW = 3;
+            const TYPE_ROW = 9;
+
+            row.eachCell((cell, rowNumber) => {
+                switch (rowNumber) {
+                    case READ_ONLY_ROW || MANDATORY_ROW:
+                        sheet.getColumn(rowNumber).font = {
+                            size: 12,
+                            name: "Calibri",
+                            scheme: "minor",
+                        };
+                        sheet.getColumn(rowNumber).alignment = {
+                            vertical: "middle",
+                            horizontal: "center",
+                        };
+                        break;
+                    case MANDATORY_ROW:
+                        sheet.getColumn(rowNumber).font = {
+                            size: 12,
+                            name: "Calibri",
+                            scheme: "minor",
+                            color: { argb: "dc2626" },
+                        };
+                        sheet.getColumn(rowNumber).alignment = {
+                            vertical: "middle",
+                            horizontal: "center",
+                        };
+                        break;
+                    case TYPE_ROW:
+                        sheet.getColumn(rowNumber).font = {
+                            size: 12,
+                            name: "Calibri",
+                            scheme: "minor",
+                            italic: true,
+                        };
+                        break;
+                    case LABEL_ROW:
+                        sheet.getColumn(rowNumber).font = {
+                            size: 12,
+                            name: "Calibri",
+                            scheme: "minor",
+                            bold: true,
+                        };
+                        break;
+                    default:
+                        sheet.getColumn(rowNumber).font = {
+                            size: 12,
+                            name: "Calibri",
+                            scheme: "minor",
+                        };
+                    // sheet.getColumn(rowNumber).border = {
+                    //     top: { style: "thin", color: { argb: "d1d5db" } },
+                    //     left: { style: "thin", color: { argb: "d1d5db" } },
+                    //     bottom: {
+                    //         style: "thin",
+                    //         color: { argb: "d1d5db" },
+                    //     },
+                    //     right: { style: "thin", color: { argb: "d1d5db" } },
+                    // };
+                }
+            });
+
+            // sheet.eachRow(function (row, rowNumber) {
+            //     if (rowNumber % 2) {
+            //         row.fill = {
+            //             type: "pattern",
+            //             pattern: "solid",
+            //             fgColor: { argb: "f2f1f3" },
+            //             bgColor: { argb: "f2f1f3" },
+            //         };
+            //     }
+            // row.border = {
+            //     top: { style: "thin", color: { argb: "d1d5db" } },
+            //     left: { style: "thin", color: { argb: "d1d5db" } },
+            //     bottom: {
+            //         style: "thin",
+            //         color: { argb: "d1d5db" },
+            //     },
+            //     right: { style: "thin", color: { argb: "d1d5db" } },
+            // };
+            // });
+
+            sheet.getRow(1).font = {
+                size: 12,
+                name: "Calibri",
+                scheme: "minor",
+                bold: true,
+                color: { argb: "FFFFFF" },
+            };
+            sheet.getRow(1).fill = {
+                type: "pattern",
+                pattern: "solid",
+                fgColor: { argb: "0365f3" },
+            };
         });
 
         workbook.xlsx.writeBuffer().then(function (buffer) {
             const blob = new Blob([buffer], { type: "applicationi/xlsx" });
-            saveAs(blob, "myexcel.xlsx");
+            saveAs(blob, "SF_DATA_DICTIONARY.xlsx");
         });
     };
     return (
