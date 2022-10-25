@@ -62,6 +62,8 @@ const ExportToExcelButton = ({
                 }
             );
 
+            console.log("Worksheet", ws);
+
             // Add Custom Styling
             setCustomStyling(ws);
 
