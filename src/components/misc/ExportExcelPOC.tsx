@@ -1,7 +1,6 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { trpc } from "utils/trpc";
-import XLSX from "xlsx-js-style";
 import * as excelJS from "exceljs";
 import { saveAs } from "file-saver";
 
@@ -22,15 +21,15 @@ const ExportExcelPOC = () => {
         workbook.created = new Date();
         workbook.modified = new Date();
 
-        const sheet = workbook.addWorksheet("2018-10报表");
-        sheet.getRow(1).values = ["种类", "销量", , , , "店铺"];
-        sheet.getRow(2).values = [
-            "种类",
+        const sheet = workbook.addWorksheet("test");
+        // sheet.getRow(1).values = ["type", "sales", , , , "shop"];
+        sheet.getRow(1).values = [
+            "type",
             "2018-05",
             "2018-06",
             "2018-07",
             "2018-08",
-            "店铺",
+            "shop",
         ];
 
         sheet.columns = [
@@ -44,26 +43,26 @@ const ExportExcelPOC = () => {
 
         const data = [
             {
-                category: "衣服",
+                category: "Category",
                 "2018-05": 300,
                 "2018-06": 230,
                 "2018-07": 730,
                 "2018-08": 630,
-                store: "王小二旗舰店",
+                store: "Store",
             },
             {
-                category: "零食",
+                category: "Category",
                 "2018-05": 672,
                 "2018-06": 826,
                 "2018-07": 302,
                 "2018-08": 389,
-                store: "吃吃货",
+                store: "Store",
             },
         ];
         sheet.addRows(data);
-        sheet.mergeCells(`B1:E1`);
-        sheet.mergeCells("A1:A2");
-        sheet.mergeCells("F1:F2");
+        // sheet.mergeCells(`B1:E1`);
+        // sheet.mergeCells("A1:A2");
+        // sheet.mergeCells("F1:F2");
 
         const row = sheet.getRow(1);
         row.eachCell((cell, rowNumber) => {

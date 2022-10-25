@@ -2,6 +2,7 @@ import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
 import { Table } from "flowbite-react";
 import React, { useState } from "react";
 import ExportToExcelButton from "./ExportToExcelButton";
+import ExportExcelButton from "./misc/ExportExcelButton";
 
 const SObjectTable = ({
     sObjectsWithDetailsData,
@@ -113,7 +114,12 @@ const SObjectTable = ({
             ) : (
                 <div>
                     {/* Export Button */}
-                    <ExportToExcelButton
+                    {/* <ExportToExcelButton
+                        sObjectsWithDetailsData={sObjectsWithDetailsData}
+                    /> */}
+
+                    {/* Export Button V2 */}
+                    <ExportExcelButton
                         sObjectsWithDetailsData={sObjectsWithDetailsData}
                     />
 

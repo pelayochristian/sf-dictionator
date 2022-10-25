@@ -257,7 +257,6 @@ const ExportToExcelButton = ({
     return (
         <div className="flex flex-wrap justify-end">
             <div>
-                <ExportExcelPOC />
                 <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
                     Export
                 </Button>
