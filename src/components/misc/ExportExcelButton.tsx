@@ -22,6 +22,7 @@ const ExportExcelButton = ({
             if (!sObjectsWithDetailsData[key]) return;
             const ws = workbook.addWorksheet(key);
             ws.views = [{}];
+            ws.properties.defaultRowHeight = 17.35;
 
             // Set Header of the Table.
             ws.getRow(1).values = [
@@ -129,6 +130,7 @@ const ExportExcelButton = ({
             const MANDATORY_COL = 6;
             const IS_CUSTOM_COL = 7;
             const IS_EXTERNAL_ID_COL = 8;
+            const PICLIST_VALUE_COL = 11;
             row.eachCell((cell, rowNumber) => {
                 // iterate over all current cells in this column including empty cells
                 const dobCol = ws.getColumn(rowNumber);
@@ -154,11 +156,8 @@ const ExportExcelButton = ({
                         cell.alignment = {
                             vertical: "middle",
                             horizontal: "left",
+                            indent: 1,
                         };
-
-                        // Set Row Height of the Cell
-                        ws.getRow(rowPerCellNumber).height =
-                            rowPerCellNumber > HEADER_ROW ? 17.25 : 22.25;
 
                         // Stipe Fill Row
                         if (rowPerCellNumber % 2) {
@@ -249,6 +248,17 @@ const ExportExcelButton = ({
                         { includeEmpty: false },
                         (cell, labelRowNumer) => {
                             if (labelRowNumer > 1) cell.font["bold"] = true;
+                        }
+                    );
+                }
+
+                // Style for Picklist Values Cell
+                if (rowNumber === PICLIST_VALUE_COL) {
+                    dobCol.eachCell(
+                        { includeEmpty: false },
+                        (cell, labelRowNumer) => {
+                            if (labelRowNumer > 1)
+                                cell.alignment["wrapText"] = true;
                         }
                     );
                 }
