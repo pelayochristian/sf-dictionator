@@ -21,6 +21,7 @@ const ExportExcelButton = ({
         Object.keys(sObjectsWithDetailsData).forEach((key) => {
             if (!sObjectsWithDetailsData[key]) return;
             const ws = workbook.addWorksheet(key);
+            ws.views = [{}];
 
             // Set Header of the Table.
             ws.getRow(1).values = [
