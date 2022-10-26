@@ -62,6 +62,11 @@ export const fieldValueTransformer = (describeField: SObjectDescribeFieldDTO) =>
     if (describeField?.externalId) {
         describeField['type'] += ', external id';
     }
+
+    // Set To Normal Case.
+    describeField['type'] = describeField['type'] ?
+        describeField['type']?.charAt(0).toUpperCase() + describeField['type']?.slice(1)
+        : describeField['type']
 }
 
 /**
