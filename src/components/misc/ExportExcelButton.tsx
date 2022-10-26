@@ -17,30 +17,34 @@ const ExportExcelButton = ({
         workbook.created = new Date();
         workbook.modified = new Date();
 
+        // Iterate SObjects.
         Object.keys(sObjectsWithDetailsData).forEach((key) => {
             if (!sObjectsWithDetailsData[key]) return;
-            const sheet = workbook.addWorksheet(key);
-            sheet.getRow(1).values = [
-                "R/O",
-                "M",
-                "Label",
-                "API Name",
-                "Description",
-                "HelpText",
-                "Is Custom",
-                "Is External ID",
-                "Type",
-                "Formula Text",
-                "Picklist Values",
+            const ws = workbook.addWorksheet(key);
+
+            // Set Header of the Table.
+            ws.getRow(1).values = [
+                "API Name".toUpperCase(),
+                "Label".toUpperCase(),
+                "Description".toUpperCase(),
+                "HelpText".toUpperCase(),
+                "Read Only".toUpperCase(),
+                "Mandatory".toUpperCase(),
+                "Is Custom".toUpperCase(),
+                "Is External ID".toUpperCase(),
+                "Type".toUpperCase(),
+                "Formula Text".toUpperCase(),
+                "Picklist Values".toUpperCase(),
             ];
 
+            // Filter Object Fields that only need for rows.
             const rows = sObjectsWithDetailsData[key]?.map((row) => ({
-                "R/O": row.updateable ? "✓" : "☐",
-                M: !row.nillable ? "*" : "",
                 label: row.label ?? "",
                 name: row.name ?? "",
                 fieldDescription: row.fieldDescription ?? "",
                 inlineHelpText: row.inlineHelpText ?? "",
+                updateable: row.updateable ?? false,
+                nillable: !row.nillable ?? false,
                 custom: row.custom ?? false,
                 externalId: row.externalId ?? false,
                 type: row.type ?? "",
@@ -51,18 +55,8 @@ const ExportExcelButton = ({
                         .join(",\n") ?? "",
             }));
 
-            sheet.columns = [
-                {
-                    key: "R/O",
-                    width: rows?.reduce(
-                        (w, r) => Math.max(w, r["R/O"].length),
-                        5
-                    ),
-                },
-                {
-                    key: "M",
-                    width: rows?.reduce((w, r) => Math.max(w, r.M.length), 3),
-                },
+            // Set Columns Width.
+            ws.columns = [
                 {
                     key: "label",
                     width: rows?.reduce(
@@ -91,7 +85,9 @@ const ExportExcelButton = ({
                         10
                     ),
                 },
-                { key: "custom", width: 11 },
+                { key: "updateable", width: 16 },
+                { key: "nillable", width: 16 },
+                { key: "custom", width: 16 },
                 { key: "externalId", width: 16 },
                 {
                     key: "type",
@@ -118,107 +114,147 @@ const ExportExcelButton = ({
                     ),
                 },
             ];
-            sheet.addRows(rows ?? []);
 
-            const row = sheet.getRow(1);
-            const READ_ONLY_ROW = 1;
-            const MANDATORY_ROW = 2;
-            const LABEL_ROW = 3;
-            const TYPE_ROW = 9;
+            // Add Row to the Worksheet.
+            ws.addRows(rows ?? []);
 
+            // Get the first row to set as the base.
+            const row = ws.getRow(1);
+
+            const HEADER_ROW = 1;
+            const LABEL_COL = 1;
+            const TYPE_COL = 9;
+            const READ_ONLY_COL = 5;
+            const MANDATORY_COL = 6;
+            const IS_CUSTOM_COL = 7;
+            const IS_EXTERNAL_ID_COL = 8;
             row.eachCell((cell, rowNumber) => {
-                switch (rowNumber) {
-                    case READ_ONLY_ROW || MANDATORY_ROW:
-                        sheet.getColumn(rowNumber).font = {
+                // iterate over all current cells in this column including empty cells
+                const dobCol = ws.getColumn(rowNumber);
+
+                // Style for Global Cell
+                dobCol.eachCell(
+                    { includeEmpty: false },
+                    (cell, rowPerCellNumber) => {
+                        cell.border = {
+                            top: { style: "thin", color: { argb: "9ca3af" } },
+                            left: { style: "thin", color: { argb: "9ca3af" } },
+                            bottom: {
+                                style: "thin",
+                                color: { argb: "9ca3af" },
+                            },
+                            right: { style: "thin", color: { argb: "9ca3af" } },
+                        };
+                        cell.font = {
                             size: 12,
                             name: "Calibri",
                             scheme: "minor",
                         };
-                        sheet.getColumn(rowNumber).alignment = {
+                        cell.alignment = {
                             vertical: "middle",
-                            horizontal: "center",
+                            horizontal: "left",
                         };
-                        break;
-                    case MANDATORY_ROW:
-                        sheet.getColumn(rowNumber).font = {
-                            size: 12,
-                            name: "Calibri",
-                            scheme: "minor",
-                            color: { argb: "dc2626" },
-                        };
-                        sheet.getColumn(rowNumber).alignment = {
-                            vertical: "middle",
-                            horizontal: "center",
-                        };
-                        break;
-                    case TYPE_ROW:
-                        sheet.getColumn(rowNumber).font = {
-                            size: 12,
-                            name: "Calibri",
-                            scheme: "minor",
-                            italic: true,
-                        };
-                        break;
-                    case LABEL_ROW:
-                        sheet.getColumn(rowNumber).font = {
-                            size: 12,
-                            name: "Calibri",
-                            scheme: "minor",
-                            bold: true,
-                        };
-                        break;
-                    default:
-                        sheet.getColumn(rowNumber).font = {
-                            size: 12,
-                            name: "Calibri",
-                            scheme: "minor",
-                        };
-                    // sheet.getColumn(rowNumber).border = {
-                    //     top: { style: "thin", color: { argb: "d1d5db" } },
-                    //     left: { style: "thin", color: { argb: "d1d5db" } },
-                    //     bottom: {
-                    //         style: "thin",
-                    //         color: { argb: "d1d5db" },
-                    //     },
-                    //     right: { style: "thin", color: { argb: "d1d5db" } },
-                    // };
+
+                        // Set Row Height of the Cell
+                        ws.getRow(rowPerCellNumber).height =
+                            rowPerCellNumber > HEADER_ROW ? 17.25 : 22.25;
+
+                        // Stipe Fill Row
+                        if (rowPerCellNumber % 2) {
+                            cell.fill = {
+                                type: "pattern",
+                                pattern: "solid",
+                                fgColor: { argb: "f3f4f6" },
+                            };
+                        }
+
+                        // Header Style
+                        if (rowPerCellNumber === HEADER_ROW) {
+                            cell.fill = {
+                                type: "pattern",
+                                pattern: "solid",
+                                fgColor: { argb: "0365f3" },
+                            };
+                            cell.font["bold"] = true;
+                            cell.font["color"] = { argb: "FFFFFF" };
+
+                            cell.border = {
+                                top: {
+                                    style: "thin",
+                                    color: { argb: "0365f3" },
+                                },
+                                left: {
+                                    style: "thin",
+                                    color: { argb: "0365f3" },
+                                },
+                                bottom: {
+                                    style: "thin",
+                                    color: { argb: "0365f3" },
+                                },
+                                right: {
+                                    style: "thin",
+                                    color: { argb: "0365f3" },
+                                },
+                            };
+                        }
+                    }
+                );
+
+                // Style for Ready Only, Mandatory, Is_Custom and Is_External_Id Cell
+                if (
+                    rowNumber === READ_ONLY_COL ||
+                    rowNumber === MANDATORY_COL ||
+                    rowNumber === IS_CUSTOM_COL ||
+                    rowNumber === IS_EXTERNAL_ID_COL
+                ) {
+                    dobCol.eachCell(
+                        { includeEmpty: false },
+                        (cell, booleanRowNumber) => {
+                            if (booleanRowNumber > HEADER_ROW) {
+                                if (cell.value === true) {
+                                    cell.fill = {
+                                        type: "pattern",
+                                        pattern: "solid",
+                                        fgColor: { argb: "bbf7d0" },
+                                    };
+                                    cell.font["color"] = { argb: "15803d" };
+                                } else {
+                                    cell.fill = {
+                                        type: "pattern",
+                                        pattern: "solid",
+                                        fgColor: { argb: "fed7aa" },
+                                    };
+                                    cell.font["color"] = { argb: "c2410c" };
+                                }
+                            }
+                        }
+                    );
+                }
+
+                // Style for Type Cell
+                if (rowNumber === TYPE_COL) {
+                    dobCol.eachCell(
+                        { includeEmpty: false },
+                        (cell, typeRowNumber) => {
+                            if (typeRowNumber > HEADER_ROW)
+                                cell.font["italic"] = true;
+                        }
+                    );
+                }
+
+                // Style for Label Cell
+                if (rowNumber === LABEL_COL) {
+                    dobCol.eachCell(
+                        { includeEmpty: false },
+                        (cell, labelRowNumer) => {
+                            if (labelRowNumer > 1) cell.font["bold"] = true;
+                        }
+                    );
                 }
             });
-
-            // sheet.eachRow(function (row, rowNumber) {
-            //     if (rowNumber % 2) {
-            //         row.fill = {
-            //             type: "pattern",
-            //             pattern: "solid",
-            //             fgColor: { argb: "f2f1f3" },
-            //             bgColor: { argb: "f2f1f3" },
-            //         };
-            //     }
-            // row.border = {
-            //     top: { style: "thin", color: { argb: "d1d5db" } },
-            //     left: { style: "thin", color: { argb: "d1d5db" } },
-            //     bottom: {
-            //         style: "thin",
-            //         color: { argb: "d1d5db" },
-            //     },
-            //     right: { style: "thin", color: { argb: "d1d5db" } },
-            // };
-            // });
-
-            sheet.getRow(1).font = {
-                size: 12,
-                name: "Calibri",
-                scheme: "minor",
-                bold: true,
-                color: { argb: "FFFFFF" },
-            };
-            sheet.getRow(1).fill = {
-                type: "pattern",
-                pattern: "solid",
-                fgColor: { argb: "0365f3" },
-            };
         });
 
+        // Saving working in excel.
         workbook.xlsx.writeBuffer().then(function (buffer) {
             const blob = new Blob([buffer], { type: "applicationi/xlsx" });
             saveAs(blob, "SF_DATA_DICTIONARY.xlsx");
@@ -228,7 +264,7 @@ const ExportExcelButton = ({
         <div className="flex flex-wrap justify-end">
             <div>
                 <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
-                    Export V2
+                    Export
                 </Button>
             </div>
         </div>
