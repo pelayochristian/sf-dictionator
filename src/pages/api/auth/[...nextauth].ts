@@ -72,6 +72,10 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+  session: {
+    maxAge: 7200, // Set 2 Hours
+    updateAge: 7200 // Set 2 Hours
+  },
   pages: {
     signIn: "/signin",
   },
