@@ -26,8 +26,8 @@ const ExportExcelButton = ({
 
             // Set Header of the Table.
             ws.getRow(1).values = [
-                "API Name".toUpperCase(),
                 "Label".toUpperCase(),
+                "API Name".toUpperCase(),
                 "Description".toUpperCase(),
                 "HelpText".toUpperCase(),
                 "Read Only".toUpperCase(),
