@@ -6,7 +6,11 @@ import { DefaultJWT } from "next-auth/jwt/types.js";
 
 export const authOptions: NextAuthOptions = {
 	callbacks: {
-		async session({ session, token, user }) {
+		async session({ session, token }) {
+			const userToken = token as JWT;
+			if (userToken.sfdc?.error === 'RefreshAccessTokenError' && session.user) {
+				session.user['isAuthenticated'] = false;
+			}
 			return session;
 		},
 		async jwt({ token, account }) {
@@ -26,7 +30,6 @@ export const authOptions: NextAuthOptions = {
 				}
 				const { exp } = await tokenIntrospection(token as JWT);
 				userToken.sfdc.expiredIn = exp;
-
 				return Promise.resolve(userToken as DefaultJWT);
 			}
 
@@ -45,7 +48,7 @@ export const authOptions: NextAuthOptions = {
 				const currentTime = new Date(new Date(Date.now()).getTime()).getTime();
 				const diffMins = Math.round((authExpTime - currentTime) / (60 * 1000));
 				if (diffMins > REFRESH_TOKEN_BUFFER_TIME) {
-					console.log(`Use Previous Token..., Remaining Time Before Refresh: ${diffMins - REFRESH_TOKEN_BUFFER_TIME} / ${diffMins} min(s)`);
+					console.log(`Use Previous Token, Remaining Time Before Refresh: ${diffMins - REFRESH_TOKEN_BUFFER_TIME} / ${diffMins} min(s)`);
 					return Promise.resolve(userToken as DefaultJWT);
 				}
 			}
@@ -140,7 +143,6 @@ const refreshAccessToken = async (token: JWT) => {
 			'refresh_token': token.sfdc?.refreshToken
 		};
 
-
 		const tokenResponse = await axios({
 			method: 'post',
 			url: `${env.SALESFORCE_URL_LOGIN}/services/oauth2/token`,
@@ -151,16 +153,17 @@ const refreshAccessToken = async (token: JWT) => {
 		});
 
 		// Get Response data.
-		const { access_token, refresh_token, instance_url } = await tokenResponse.data;
+		// const { access_token, refresh_token, instance_url } = await tokenResponse.data;
+		const tknResponse = await tokenResponse.data;
 
 		// Get expire date from token introspection end point.
 		const { exp } = await tokenIntrospection(token);
 
 		return {
-			accessToken: access_token,
-			refreshToken: refresh_token ?? token.sfdc?.refreshToken,
+			accessToken: tknResponse.access_token,
+			refreshToken: tknResponse.refresh_token ?? token.sfdc?.refreshToken,
 			expiredIn: exp,
-			instanceURL: instance_url
+			instanceURL: tknResponse.instance_url
 		}
 	} catch (error) {
 		return {

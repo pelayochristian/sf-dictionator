@@ -1,12 +1,17 @@
 import { DarkThemeToggle, Dropdown, Navbar } from "flowbite-react";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Header = () => {
     const router = useRouter();
     const { data: sessionData } = useSession();
+    useEffect(() => {
+        if (sessionData?.user?.isAuthenticated === false) {
+            signIn();
+        }
+    }, [sessionData]);
 
     return (
         <nav className="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white px-2 py-3 dark:border-gray-600 dark:bg-gray-800 sm:px-4">
