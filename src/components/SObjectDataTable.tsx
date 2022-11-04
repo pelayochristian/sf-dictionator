@@ -5,8 +5,8 @@ import DataTable, {
     ExpanderComponentProps,
     TableColumn,
 } from "react-data-table-component";
-import ExportExcelButton from "./misc/ExportExcelButton";
-import FilterComponent from "./misc/FilterComponent";
+import ExportExcelButton from "./ExportExcelButton";
+import FilterComponent from "./FilterComponent";
 
 /**
  * Custom theme Configuration.
@@ -264,14 +264,16 @@ const SObjectDataTable = ({
     return (
         <section className="container mx-auto mt-20  mb-20 items-center justify-between">
             <DataTable
-                // title={defaultSObjectName}
                 columns={columns}
                 data={filteredItems ?? []}
                 expandableRows
                 expandableRowsComponent={ExpandedComponent}
-                subHeader
+                subHeader={
+                    Object.keys(sObjectsWithDetailsData).length === 0
+                        ? false
+                        : true
+                }
                 subHeaderComponent={subHeaderComponent}
-                // actions={exportToExcel}
                 pagination
                 theme="solarized"
             />
