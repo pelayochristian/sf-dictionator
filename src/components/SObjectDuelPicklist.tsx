@@ -52,13 +52,6 @@ const SObjectDuelPicklist = () => {
         <>
             <section className="container mx-auto mt-36 flex flex-wrap items-center justify-between rounded-md dark:bg-gray-800">
                 <div className="w-full p-14 shadow-md">
-                    <div className="mb-4 border-l-4 border-l-green-400 p-2 text-sm">
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit. Molestiae ullam magni tempora, quidem
-                            veritatis.
-                        </p>
-                    </div>
                     <div className="grid grid-cols-5 gap-6">
                         {/* Duel Picklist */}
                         <div className="col-span-3">
@@ -176,7 +169,6 @@ const SObjectDuelPicklist = () => {
                 </div>
             </section>
             <SObjectDataTable sObjectsWithDetailsData={data ?? {}} />
-            {/* <SObjectTable sObjectsWithDetailsData={data ?? {}} /> */}
         </>
     );
 };
