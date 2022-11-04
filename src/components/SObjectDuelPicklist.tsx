@@ -4,8 +4,8 @@ import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import { Button } from "flowbite-react";
 import IndeterminateProgressBar from "./misc/IndeterminateProgressBar";
-import SObjectTable from "./SObjectTable";
 import { CustomizableSObjectDTO } from "@schema/sobject-customizable";
+import SObjectDataTable from "./SObjectDataTable";
 
 const SObjectDuelPicklist = () => {
     const [selected, setSelected] = useState<string[]>([]);
@@ -175,7 +175,8 @@ const SObjectDuelPicklist = () => {
                     </div>
                 </div>
             </section>
-            <SObjectTable sObjectsWithDetailsData={data ?? {}} />
+            <SObjectDataTable sObjectsWithDetailsData={data ?? {}} />
+            {/* <SObjectTable sObjectsWithDetailsData={data ?? {}} /> */}
         </>
     );
 };
