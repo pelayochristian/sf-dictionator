@@ -148,14 +148,23 @@ const SObjectDuelPicklist = () => {
                             ) : (
                                 <div className="flex flex-wrap justify-start">
                                     <div className="basis-1/4">
-                                        <Button
-                                            gradientDuoTone="greenToBlue"
-                                            onClick={() =>
-                                                retrieveSObjectFields()
-                                            }
-                                        >
-                                            Generate
-                                        </Button>
+                                        {selected.length === 0 ? (
+                                            <Button
+                                                disabled
+                                                gradientDuoTone="greenToBlue"
+                                            >
+                                                Generate
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                gradientDuoTone="greenToBlue"
+                                                onClick={() =>
+                                                    retrieveSObjectFields()
+                                                }
+                                            >
+                                                Generate
+                                            </Button>
+                                        )}
                                     </div>
                                 </div>
                             )}
