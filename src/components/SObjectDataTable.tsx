@@ -138,7 +138,11 @@ const SObjectDataTable = ({
     const ExpandedComponent: React.FC<ExpanderComponentProps<DataRow>> = ({
         data,
     }) => {
-        return <pre>{JSON.stringify(data, null, 2)}</pre>;
+        return (
+            <div className="m-5">
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+            </div>
+        );
     };
 
     /**
