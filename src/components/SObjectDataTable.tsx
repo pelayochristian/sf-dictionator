@@ -1,4 +1,5 @@
 import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
+import { useTheme } from "flowbite-react";
 import React, { useState } from "react";
 import DataTable, {
     createTheme,
@@ -12,7 +13,7 @@ import FilterComponent from "./FilterComponent";
  * Custom theme Configuration.
  */
 createTheme(
-    "solarized",
+    "custom-dark",
     {
         text: {
             primary: "#fafafa",
@@ -275,7 +276,7 @@ const SObjectDataTable = ({
                 }
                 subHeaderComponent={subHeaderComponent}
                 pagination
-                theme="solarized"
+                theme={useTheme().mode === "dark" ? "custom-dark" : "default"}
             />
         </section>
     );
