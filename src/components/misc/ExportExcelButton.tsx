@@ -3,6 +3,7 @@ import { Button } from "flowbite-react";
 import React from "react";
 import * as excelJS from "exceljs";
 import { saveAs } from "file-saver";
+import Image from "next/image";
 
 const ExportExcelButton = ({
     sObjectsWithDetailsData,
@@ -274,8 +275,13 @@ const ExportExcelButton = ({
     return (
         <div className="flex flex-wrap justify-end">
             <div>
-                <Button gradientDuoTone="greenToBlue" onClick={exportToCSV}>
-                    Export
+                <Button color="negate" onClick={exportToCSV}>
+                    <Image
+                        src="/icons/excel-svgrepo-com.svg"
+                        alt="Hashnode"
+                        width={25}
+                        height={25}
+                    />
                 </Button>
             </div>
         </div>
