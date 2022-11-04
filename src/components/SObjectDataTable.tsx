@@ -39,11 +39,11 @@ createTheme(
 
 interface DataRow {
     label: string;
-    name: string;
-    fieldDescription: string;
-    inlineHelpText: string;
-    updateable: string;
-    nillable: string;
+    apiName: string;
+    description: string;
+    helptext: string;
+    readOnly: string;
+    mandatory: string;
     type: string;
     calculatedFormula: string;
     picklistValues: string;
@@ -60,17 +60,17 @@ const columns: TableColumn<DataRow>[] = [
     },
     {
         name: "API Name",
-        selector: (row) => row.name,
+        selector: (row) => row.apiName,
         sortable: true,
     },
     {
         name: "Description",
-        selector: (row) => row.fieldDescription,
+        selector: (row) => row.description,
         sortable: true,
     },
     {
         name: "HelpText",
-        selector: (row) => row.inlineHelpText,
+        selector: (row) => row.helptext,
         sortable: true,
     },
     {
@@ -117,14 +117,14 @@ const SObjectDataTable = ({
     const getTableRows = sObjectsWithDetailsData[defaultSObjectName]?.map(
         (field) =>
             ({
-                label: field.label,
-                name: field.name,
-                fieldDescription: field.fieldDescription,
-                inlineHelpText: field.inlineHelpText,
-                updateable: field.updateable ? "true" : "false",
-                nillable: field.nillable ? "true" : "false",
+                label: field.label ?? "",
+                apiName: field.name ?? "",
+                description: field.fieldDescription ?? "",
+                helptext: field.inlineHelpText ?? "",
+                readOnly: field.updateable ? "true" : "false",
+                mandatory: field.nillable ? "true" : "false",
                 type: field.type,
-                calculatedFormula: field.calculatedFormula,
+                calculatedFormula: field.calculatedFormula ?? "",
                 picklistValues:
                     field.picklistValues
                         ?.map((picklist) => picklist.label)
@@ -167,9 +167,52 @@ const SObjectDataTable = ({
     );
 
     /**
+     * Construct Tabs for SObject that is being selected.
+     */
+    const getSObjectButtonTabs = React.useMemo(
+        () => (
+            <>
+                {Object.keys(sObjectsWithDetailsData).map((item, index) => {
+                    if (sObjectNameState === item) {
+                        return (
+                            <li className="mr-2" key={index}>
+                                <button
+                                    className="active inline-block rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500"
+                                    onClick={updateSObjectDataViaTab}
+                                    data-sobject={item}
+                                >
+                                    {item}
+                                </button>
+                            </li>
+                        );
+                    } else {
+                        return (
+                            <li
+                                className="mr-2"
+                                key={index}
+                                onClick={updateSObjectDataViaTab}
+                                data-sobject={item}
+                            >
+                                <button
+                                    className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
+                                    onClick={updateSObjectDataViaTab}
+                                    data-sobject={item}
+                                >
+                                    {item}
+                                </button>
+                            </li>
+                        );
+                    }
+                })}
+            </>
+        ),
+        [sObjectsWithDetailsData, sObjectNameState]
+    );
+
+    /**
      * Append FilterComponent to the Table SubHeader.
      */
-    const searchComponent = React.useMemo(() => {
+    const subHeaderComponent = React.useMemo(() => {
         const handleClear = () => {
             if (filterText) {
                 setResetPaginationToggle(!resetPaginationToggle);
@@ -178,27 +221,57 @@ const SObjectDataTable = ({
         };
 
         return (
-            <FilterComponent
-                onFilter={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setFilterText(e.target.value)
-                }
-                onClear={handleClear}
-                filterText={filterText}
-            />
+            <>
+                {Object.keys(sObjectsWithDetailsData).length === 0 ? (
+                    <></>
+                ) : (
+                    <div className="flex w-full gap-6">
+                        <div className="w-full">
+                            <div className="mb-5 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                                <ul className="-mb-px flex flex-wrap">
+                                    {getSObjectButtonTabs}
+                                </ul>
+                            </div>
+                            <p className="text-lg font-semibold">
+                                {sObjectNameState}
+                            </p>
+                        </div>
+                        <div>
+                            <div className="float-right">
+                                <div className="mb-5">{exportToExcel}</div>
+                                <FilterComponent
+                                    onFilter={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                    ) => setFilterText(e.target.value)}
+                                    onClear={handleClear}
+                                    filterText={filterText}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </>
         );
-    }, [filterText, resetPaginationToggle]);
+    }, [
+        filterText,
+        resetPaginationToggle,
+        getSObjectButtonTabs,
+        exportToExcel,
+        sObjectNameState,
+        sObjectsWithDetailsData,
+    ]);
 
     return (
         <section className="container mx-auto mt-20  mb-20 items-center justify-between">
             <DataTable
-                title={defaultSObjectName}
+                // title={defaultSObjectName}
                 columns={columns}
                 data={filteredItems ?? []}
                 expandableRows
                 expandableRowsComponent={ExpandedComponent}
                 subHeader
-                subHeaderComponent={searchComponent}
-                actions={exportToExcel}
+                subHeaderComponent={subHeaderComponent}
+                // actions={exportToExcel}
                 pagination
                 theme="solarized"
             />
