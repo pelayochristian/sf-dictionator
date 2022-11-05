@@ -174,7 +174,7 @@ const SObjectDataTable = ({
         () => (
             <>
                 {Object.keys(sObjectsWithDetailsData).map((item, index) => {
-                    if (sObjectNameState === item) {
+                    if (defaultSObjectName === item) {
                         return (
                             <li className="mr-2" key={index}>
                                 <button
@@ -188,12 +188,7 @@ const SObjectDataTable = ({
                         );
                     } else {
                         return (
-                            <li
-                                className="mr-2"
-                                key={index}
-                                onClick={updateSObjectDataViaTab}
-                                data-sobject={item}
-                            >
+                            <li className="mr-2" key={index}>
                                 <button
                                     className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                                     onClick={updateSObjectDataViaTab}
@@ -207,7 +202,7 @@ const SObjectDataTable = ({
                 })}
             </>
         ),
-        [sObjectsWithDetailsData, sObjectNameState]
+        [sObjectsWithDetailsData, defaultSObjectName]
     );
 
     /**
@@ -234,7 +229,7 @@ const SObjectDataTable = ({
                                 </ul>
                             </div>
                             <p className="text-lg font-semibold">
-                                {sObjectNameState}
+                                {defaultSObjectName}
                             </p>
                         </div>
                         <div>
@@ -258,7 +253,7 @@ const SObjectDataTable = ({
         resetPaginationToggle,
         getSObjectButtonTabs,
         exportToExcel,
-        sObjectNameState,
+        defaultSObjectName,
         sObjectsWithDetailsData,
     ]);
 
