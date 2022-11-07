@@ -50,7 +50,7 @@ const SObjectDuelPicklist = () => {
 
     return (
         <>
-            <section className="container mx-auto mt-36 flex flex-wrap items-center justify-between rounded-md dark:bg-gray-800">
+            <section className="container mx-auto mt-36 flex flex-wrap items-center justify-between dark:bg-gray-800">
                 <div className="w-full p-14 shadow-md">
                     <div className="grid grid-cols-5 gap-6">
                         {/* Duel Picklist */}

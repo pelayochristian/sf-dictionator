@@ -12,21 +12,26 @@ body {
 }
 
 /* Duel Filter Box Scroll */
+.custom-tabs-wrapper,
 .rdl-control {
     /* Firefox */
     scrollbar-width: auto;
     scrollbar-color: #8f54a0 #ffffff;
 }
 
+.custom-tabs-wrapper::-webkit-scrollbar,
 .rdl-control::-webkit-scrollbar {
     /* Chrome, Edge, and Safari */
-    @apply w-2;
+    @apply w-1.5;
+    @apply h-1.5;
 }
 
+.custom-tabs-wrapper::-webkit-scrollbar-track,
 .rdl-control::-webkit-scrollbar-track {
     @apply !rounded-xl !bg-gray-200 dark:!bg-gray-600;
 }
 
+.custom-tabs-wrapper::-webkit-scrollbar-thumb,
 .rdl-control::-webkit-scrollbar-thumb {
     @apply !rounded-full !bg-gradient-to-tr !from-green-400 !to-blue-500;
 }

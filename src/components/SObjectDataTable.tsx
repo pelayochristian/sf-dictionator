@@ -1,5 +1,5 @@
 import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
-import { useTheme } from "flowbite-react";
+import { Tabs, useTheme } from "flowbite-react";
 import React, { useState } from "react";
 import DataTable, {
     createTheme,
@@ -178,7 +178,7 @@ const SObjectDataTable = ({
                         return (
                             <li className="mr-2" key={index}>
                                 <button
-                                    className="active inline-block rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500"
+                                    className="active inline-block rounded-t-lg  p-4 text-blue-600 dark:text-blue-500"
                                     onClick={updateSObjectDataViaTab}
                                     data-sobject={item}
                                 >
@@ -190,7 +190,7 @@ const SObjectDataTable = ({
                         return (
                             <li className="mr-2" key={index}>
                                 <button
-                                    className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
+                                    className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:text-gray-600 dark:hover:text-gray-300"
                                     onClick={updateSObjectDataViaTab}
                                     data-sobject={item}
                                 >
@@ -221,10 +221,10 @@ const SObjectDataTable = ({
                 {Object.keys(sObjectsWithDetailsData).length === 0 ? (
                     <></>
                 ) : (
-                    <div className="flex w-full gap-6">
-                        <div className="w-full">
-                            <div className="mb-5 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
-                                <ul className="-mb-px flex flex-wrap">
+                    <div className="grid w-full grid-cols-3">
+                        <div className=" col-span-2 mt-5">
+                            <div className=" mb-5 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                                <ul className="custom-tabs-wrapper -mb-px flex overflow-x-auto">
                                     {getSObjectButtonTabs}
                                 </ul>
                             </div>
@@ -258,21 +258,25 @@ const SObjectDataTable = ({
     ]);
 
     return (
-        <section className="container mx-auto mt-20  mb-20 items-center justify-between">
-            <DataTable
-                columns={columns}
-                data={filteredItems ?? []}
-                expandableRows
-                expandableRowsComponent={ExpandedComponent}
-                subHeader={
-                    Object.keys(sObjectsWithDetailsData).length === 0
-                        ? false
-                        : true
-                }
-                subHeaderComponent={subHeaderComponent}
-                pagination
-                theme={useTheme().mode === "dark" ? "custom-dark" : "default"}
-            />
+        <section className="container mx-auto mt-20  mb-20 items-center justify-between ">
+            <div className="shadow-md">
+                <DataTable
+                    columns={columns}
+                    data={filteredItems ?? []}
+                    expandableRows
+                    expandableRowsComponent={ExpandedComponent}
+                    subHeader={
+                        Object.keys(sObjectsWithDetailsData).length === 0
+                            ? false
+                            : true
+                    }
+                    subHeaderComponent={subHeaderComponent}
+                    pagination
+                    theme={
+                        useTheme().mode === "dark" ? "custom-dark" : "default"
+                    }
+                />
+            </div>
         </section>
     );
 };
