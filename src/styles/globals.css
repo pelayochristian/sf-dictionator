@@ -22,8 +22,8 @@ body {
 .custom-tabs-wrapper::-webkit-scrollbar,
 .rdl-control::-webkit-scrollbar {
     /* Chrome, Edge, and Safari */
-    @apply w-1;
-    @apply h-1;
+    @apply w-1.5;
+    @apply h-1.5;
 }
 
 .custom-tabs-wrapper::-webkit-scrollbar-track,
