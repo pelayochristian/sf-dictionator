@@ -4,6 +4,16 @@
 
 A Web-Based tool for generating Salesforce Data Dictionary supported with Oath2 Salesforce Authentication. This tool will help Salesforce Developer/Administrator to visualize their Schema Object field's pre-selected important attributes rather than visiting Salesforce Object Manager. It can export multiple schema objects to excel with fancy cell color and a Datatable for viewing the selected Schema Object.
 
+### Tech Stack:
+
+-   [x] [Next.js](https://nextjs.org/)
+-   [x] [NextAuth.js](https://next-auth.js.org)
+-   [x] [tRPC](https://trpc.io/)
+-   [x] [jsforce](https://jsforce.github.io)
+-   [x] [Tailwind](https://tailwindcss.com/)
+-   [x] [Typescript](https://www.typescriptlang.org/)
+-   [x] [Flowbite React Components](https://flowbite-react.com/)
+
 ## ⚡️ One-click Deployment to your own Vercel Account
 
 Using the Vercel Deploy Button, you can quickly deploy this project into your own Vercel Account.
@@ -42,7 +52,7 @@ After clicking the Deploy button above, it will redirect to your Vercel Account,
     - On the page that opens, click the **Edit** button.
     - Under **OAuth policies**, select **All users may self-authorize** in the **Permitted Users** list, and then click the **Save** button.
 9. Go back to the **Connected Apps** list, and click the App that you just created.
-10. Go to **API (Enable OAuth Settings)**, and note down the **Consumer Key** and **Consumer Secret**, which will be used for the configuration of **Environment Variables**.
+10. Go to **API (Enable OAuth Settings)**, and note down the **Consumer Key** and **Consumer Secret**, which will be used for the configuration of **[Environment Variables](https://github.com/pelayochristian/sf-dictionator#environment-variables)**.
 
 ### Environment Variables
 
