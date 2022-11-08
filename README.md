@@ -15,7 +15,7 @@ After clicking the Deploy button above, it will redirect to your Vercel Account,
 1. Vercel will ask you to link your [Github](https://github.com), [Gitlab](https://about.gitlab.com/) or [Bitbucket](https://bitbucket.org/product). In this demo it uses Github, then populate the **Repository Name** and click **Create**.
    ![Alt text](github-images/vercel_create_repo.png?raw=true "Vercel Create Repo")
 
-2. Next, it will proceed on setting up the **[Environment Variables](https://github.com/pelayochristian/salesforce-next-auth#environment-variables)** needed to this project to run smoothly, then click **Deploy**
+2. Next, it will proceed on setting up the **[Environment Variables](https://github.com/pelayochristian/sf-dictionator#environment-variables)** needed to this project to run smoothly, then click **Deploy**
    ![Alt text](github-images/vercel_add_env_var.png?raw=true "Vercel Add Environment Variables")
 
 ## 🧑‍🔧 Pre-Work
