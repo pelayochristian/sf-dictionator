@@ -1,5 +1,5 @@
 import { SObjectDescribeFieldsWithKeyDTO } from "@schema/sobject-describe";
-import { Tabs, useTheme } from "flowbite-react";
+import { useTheme } from "flowbite-react";
 import React, { useState } from "react";
 import DataTable, {
     createTheme,
