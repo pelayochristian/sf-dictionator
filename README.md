@@ -18,7 +18,7 @@ A Web-Based tool for generating Salesforce Data Dictionary supported with Oath2 
 
 Using the Vercel Deploy Button, you can quickly deploy this project into your own Vercel Account.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fpelayochristian%2Fsalesforce-next-auth&env=SALESFORCE_URL_LOGIN,NEXTAUTH_SECRET,SALESFORCE_CLIENT_SECRET,SALESFORCE_CLIENT_ID&envDescription=Environment%20Variables%20needed%20to%20run%20this%20project.&envLink=https%3A%2F%2Fgithub.com%2Fpelayochristian%2Fsalesforce-next-auth%23environment-variables&project-name=salesforce-next-auth&repo-name=salesforce-next-auth)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fpelayochristian%2Fsf-dictionator&env=SALESFORCE_URL_LOGIN,NEXTAUTH_SECRET,SALESFORCE_CLIENT_SECRET,SALESFORCE_CLIENT_ID&envDescription=Environment%20Variables%20needed%20to%20run%20this%20project.&envLink=https%3A%2F%2Fgithub.com%2Fpelayochristian%2Fsf-dictionator%23environment-variables&project-name=sf-dictionator&repo-name=sf-dictionator)
 
 After clicking the Deploy button above, it will redirect to your Vercel Account, you'll see similar to the following screen shot bellow.
 
@@ -54,7 +54,7 @@ After clicking the Deploy button above, it will redirect to your Vercel Account,
 9. Go back to the **Connected Apps** list, and click the App that you just created.
 10. Go to **API (Enable OAuth Settings)**, and note down the **Consumer Key** and **Consumer Secret**, which will be used for the configuration of **[Environment Variables](https://github.com/pelayochristian/sf-dictionator#environment-variables)**.
 
-### Environment Variables
+## 🧑‍💻 Environment Variables
 
 For local installation, create `.env.local` in root folder of the project.
 
@@ -69,4 +69,36 @@ NEXTAUTH_SECRET=YOUR_NEXTAUTH_SECRET
 
 To generate NextAuth Secret you can use this app: https://generate-secret.vercel.app/32
 
+## 🛑 Security
+
+### How is your token being used or stored?
+
+On this tool, your token is not stored in any databases. With the use of Next-Auth after the Salesforce Authenticate the user, using JWT provided by the Next-Auth only the token is used, and the session with a maximum TTL of 2 hours.
+
+### How can we keep the user still log in after 2 hours straight with active session?
+
+By using [Refresh Rotation Strategy](https://next-auth.js.org/tutorials/refresh-token-rotation) and refresh the token with a 15 minutes buffer time before the expiration of the token.
+
 ## ⚡️ Local Machine Installation
+
+Before firing up the project make sure you already set your **[Environment Variables](https://github.com/pelayochristian/sf-dictionator#environment-variables)**.
+
+```
+git clone https://github.com/pelayochristian/sf-dictionator.git
+cd sf-dictionator
+npm install
+```
+
+### For Development, run the below command.
+
+```
+npm run dev
+```
+
+### For running the Production Ready package, run the below command.
+
+```
+npm run build && npm run start
+```
+
+Open http://localhost:3000 with your browser to see the result.
