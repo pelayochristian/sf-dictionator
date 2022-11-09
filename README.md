@@ -2,11 +2,11 @@
 
 ![Alt text](github-images/DICTIONATOR.png?raw=true "Title")
 
-## 👋 Introduction
+# 👋 Introduction
 
 A Web-Based tool for generating Salesforce Data Dictionary supported with Oath2 Salesforce Authentication. This tool will help Salesforce Developer/Administrator to visualize their Schema Object field's pre-selected important attributes rather than visiting Salesforce Object Manager. It can export multiple schema objects to excel with fancy cell color and a Datatable for viewing the selected Schema Object.
 
-### Tech Stack:
+# Tech Stack:
 
 -   [x] [Next.js](https://nextjs.org/)
 -   [x] [NextAuth.js](https://next-auth.js.org)
@@ -16,7 +16,7 @@ A Web-Based tool for generating Salesforce Data Dictionary supported with Oath2 
 -   [x] [Typescript](https://www.typescriptlang.org/)
 -   [x] [Flowbite React Components](https://flowbite-react.com/)
 
-## 📷 Screen Shots
+# 📷 Screen Shots
 
 ![Alt text](github-images/ss_01.png?raw=true "Title")
 
@@ -36,7 +36,7 @@ Figure 2 - SObject Datatable
 Figure 3 - Exported Excel File
 </p>
 
-## ⚡️ One-click Deployment to your own Vercel Account
+# ⚡️ One-click Deployment to your own Vercel Account
 
 Using the Vercel Deploy Button, you can quickly deploy this project into your own Vercel Account.
 
@@ -50,9 +50,9 @@ After clicking the Deploy button above, it will redirect to your Vercel Account,
 2. Next, it will proceed on setting up the **[Environment Variables](https://github.com/pelayochristian/sf-dictionator#environment-variables)** needed to this project to run smoothly, then click **Deploy**
    ![Alt text](github-images/vercel_add_env_var.png?raw=true "Vercel Add Environment Variables")
 
-## 🧑‍🔧 Pre-Work
+# 🧑‍🔧 Pre-Work
 
-### Create Connected App in Salesforce
+## Create Connected App in Salesforce
 
 1. Log in to Salesforce as an administrator.
 2. In the drop-down list of the account (in the upper-right corner), select **Setup**.
@@ -76,7 +76,7 @@ After clicking the Deploy button above, it will redirect to your Vercel Account,
 9. Go back to the **Connected Apps** list, and click the App that you just created.
 10. Go to **API (Enable OAuth Settings)**, and note down the **Consumer Key** and **Consumer Secret**, which will be used for the configuration of **[Environment Variables](https://github.com/pelayochristian/sf-dictionator#environment-variables)**.
 
-## 🧑‍💻 Environment Variables
+# 🧑‍💻 Environment Variables
 
 For local installation, create `.env.local` in root folder of the project.
 
@@ -91,17 +91,17 @@ NEXTAUTH_SECRET=YOUR_NEXTAUTH_SECRET
 
 To generate NextAuth Secret you can use this app: https://generate-secret.vercel.app/32
 
-## 🛑 Security
+# 🛑 Security
 
-### How is your token being used or stored?
+## How is your token being used or stored?
 
 On this tool, your token is not stored in any databases. With the use of Next-Auth after the Salesforce Authenticate the user, using JWT provided by the Next-Auth only the token is used, and the session with a maximum TTL of 2 hours.
 
-### How can we keep the user still log in after 2 hours straight with active session?
+## How can we keep the user still log in after 2 hours straight with active session?
 
 By using [Refresh Rotation Strategy](https://next-auth.js.org/tutorials/refresh-token-rotation) and refresh the token with a 15 minutes buffer time before the expiration of the token.
 
-## ⚡️ Local Machine Installation
+# ⚡️ Local Machine Installation
 
 Before firing up the project make sure you already set your **[Environment Variables](https://github.com/pelayochristian/sf-dictionator#environment-variables)**.
 
@@ -111,13 +111,13 @@ cd sf-dictionator
 npm install
 ```
 
-### For Development, run the below command.
+## For Development, run the below command.
 
 ```
 npm run dev
 ```
 
-### For running the Production Ready package, run the below command.
+## For running the Production Ready package, run the below command.
 
 ```
 npm run build && npm run start
