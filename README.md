@@ -1,5 +1,7 @@
 # Salesforce Data Dictionary Generator
 
+![Alt text](github-images/DICTIONATOR.png?raw=true "Title")
+
 ## 👋 Introduction
 
 A Web-Based tool for generating Salesforce Data Dictionary supported with Oath2 Salesforce Authentication. This tool will help Salesforce Developer/Administrator to visualize their Schema Object field's pre-selected important attributes rather than visiting Salesforce Object Manager. It can export multiple schema objects to excel with fancy cell color and a Datatable for viewing the selected Schema Object.
@@ -13,6 +15,26 @@ A Web-Based tool for generating Salesforce Data Dictionary supported with Oath2 
 -   [x] [Tailwind](https://tailwindcss.com/)
 -   [x] [Typescript](https://www.typescriptlang.org/)
 -   [x] [Flowbite React Components](https://flowbite-react.com/)
+
+## 📷 Screen Shots
+
+![Alt text](github-images/ss_01.png?raw=true "Title")
+
+<p align="center" style="font-style: italic;">
+Figure 1 - Duel Picklist
+</p>
+
+![Alt text](github-images/ss_02.png?raw=true "Title")
+
+<p align="center" style="font-style: italic;">
+Figure 2 - SObject Datatable
+</p>
+
+![Alt text](github-images/ss_03.png?raw=true "Title")
+
+<p align="center" style="font-style: italic;">
+Figure 3 - Exported Excel File
+</p>
 
 ## ⚡️ One-click Deployment to your own Vercel Account
 
