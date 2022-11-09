@@ -19,16 +19,19 @@ A Web-Based tool for generating Salesforce Data Dictionary supported with Oath2 
 ## 📷 Screen Shots
 
 ![Alt text](github-images/ss_01.png?raw=true "Title")
+
 <p align="center" style="font-style: italic;">
 Figure 1 - Duel Picklist
 </p>
 
 ![Alt text](github-images/ss_02.png?raw=true "Title")
+
 <p align="center" style="font-style: italic;">
 Figure 2 - SObject Datatable
 </p>
 
 ![Alt text](github-images/ss_03.png?raw=true "Title")
+
 <p align="center" style="font-style: italic;">
 Figure 3 - Exported Excel File
 </p>
