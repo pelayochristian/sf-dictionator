@@ -59,8 +59,8 @@ After clicking the Deploy button above, it will redirect to your Vercel Account,
 3. In the left-hand pane, go to **App Setup > Create >Apps**.
 4. In the **Connected Apps** pane, click the **New** button.
 5. On the **New Connected App** page, fill the following required fields under **Basic Information**:
-    - **Connected App Name**. For example, NextAuth Demo.
-    - **API name**. For example, NextAuth Demo.
+    - **Connected App Name**. For example, SF-Dictionator Demo.
+    - **API name**. For example, SF-Dictionator Demo.
     - **Contact Email**.
 6. Go to **API (Enable OAuth Settings)**, and select **Enable OAuth Settings**.
 
