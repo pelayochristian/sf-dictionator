@@ -1,6 +1,6 @@
 # Salesforce Data Dictionary Generator
 
-![Alt text](github-images/DICTIONATOR.png?raw=true "Title")
+![Salesforce Data Dictionary Generator](github-images/DICTIONATOR.png?raw=true "Title")
 
 # 👋 Introduction
 
